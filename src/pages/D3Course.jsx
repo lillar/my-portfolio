@@ -37,7 +37,7 @@ export default function D3Course() {
               </div>
 
               <div className="project-preview">
-                <div className="chart-placeholder">chart goes here</div>
+                <img src={project.image} alt={project.title} className="project-image" />
               </div>
             </div>
           </section>
