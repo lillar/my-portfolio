@@ -16,11 +16,10 @@ export default function D3Course() {
       <div className="project-list">
         {d3projects.map((project, i) => (
           <section key={project.id} className="project-section">
-            <p className="project-index">{String(i + 1).padStart(2, "0")}</p>
-            <h2 className="project-title">{project.title}</h2>
-
             <div className="project-body">
               <div className="project-text">
+                <p className="project-index">{String(i + 1).padStart(2, "0")}</p>
+                <h2 className="project-title">{project.title}</h2>
                 <p className="project-description">{project.description}</p>
                 <div className="project-tags">
                   {project.tags.map((tag) => (
