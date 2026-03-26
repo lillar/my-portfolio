@@ -32,7 +32,7 @@ actions: true
 
  <!-- more -->
 
-Writing a [post](my-portfolio/blog/solo-traveling) about our application to the Budapest BI Forum’s contest made me feel nostalgic, and I found my favorite dataviz from 2017. Just like in 2020, I was working with my best brainstorming buddies, [Sara T. Kocsis](https://www.linkedin.com/in/sara-t-kocsis/) and [Eszter Somos](https://www.linkedin.com/in/esztersomos/).
+Writing a [post](/my-portfolio/blog/solo-traveling) about our application to the Budapest BI Forum’s contest made me feel nostalgic, and I found my favorite dataviz from 2017. Just like in 2020, I was working with my best brainstorming buddies, [Sara T. Kocsis](https://www.linkedin.com/in/sara-t-kocsis/) and [Eszter Somos](https://www.linkedin.com/in/esztersomos/).
 
 That year the Hungarian bank OTP provided data on their discount program, including demographics, activated offers and transactions. Maybe because of the stores were being full with Christmas vibes, or my memories just faded with time, but we instantly came up with the idea to do something specific to the holidays. And what gives the biggest headache every year if not to figure what to give to our loved ones – more than another pair of socks or bath bombs... or candles?
 
