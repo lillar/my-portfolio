@@ -5,7 +5,7 @@ export default function D3Course() {
     <div className="page">
 
       <div className="page-header">
-        <p className="page-eyebrow">Learning in public</p>
+        <p className="page-eyebrow">March 2026</p>
         <h1 className="page-title">D3 Course</h1>
         <p className="page-subtitle">
           Charts built while following the React Graph Gallery D3 course.
