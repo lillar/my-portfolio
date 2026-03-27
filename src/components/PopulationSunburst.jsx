@@ -70,7 +70,7 @@ export default function PopulationSunburst() {
                   x={lx} y={ly}
                   textAnchor="middle"
                   dominantBaseline="middle"
-                  fontSize={10}
+                  fontSize={11}
                   fontFamily="var(--mono)"
                   fill="white"
                   pointerEvents="none"
@@ -83,10 +83,10 @@ export default function PopulationSunburst() {
         })}
 
         {/* Center text */}
-        <text textAnchor="middle" y={-8} fontSize={11} fontFamily="var(--mono)" fill="var(--text-muted)">
+        <text textAnchor="middle" y={-8} fontSize={13} fontFamily="var(--mono)" fill="var(--text-muted)">
           TOP 10 COUNTRIES
         </text>
-        <text textAnchor="middle" y={8} fontSize={10} fontFamily="var(--mono)" fill="var(--text-muted)">
+        <text textAnchor="middle" y={8} fontSize={12} fontFamily="var(--mono)" fill="var(--text-muted)">
           PER CONTINENT
         </text>
 
@@ -95,13 +95,13 @@ export default function PopulationSunburst() {
           <g>
             <rect x={-70} y={-36} width={140} height={60}
               fill="var(--bg)" stroke="var(--border)" rx={4} />
-            <text textAnchor="middle" y={-16} fontSize={11} fontWeight={600} fill="var(--text)">
+            <text textAnchor="middle" y={-16} fontSize={12} fontWeight={600} fill="var(--text)">
               {tooltip.data.name}
             </text>
-            <text textAnchor="middle" y={2} fontSize={10} fill="var(--text-muted)">
+            <text textAnchor="middle" y={2} fontSize={11} fill="var(--text-muted)">
               {tooltip.value.toLocaleString()}M people
             </text>
-            <text textAnchor="middle" y={18} fontSize={10} fill="var(--text-muted)">
+            <text textAnchor="middle" y={18} fontSize={11} fill="var(--text-muted)">
               {((tooltip.value / root.value) * 100).toFixed(1)}% of Total
             </text>
           </g>

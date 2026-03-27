@@ -177,6 +177,13 @@ nav {
   margin: 0 0 24px;
 }
 
+.project-source {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  margin: 0 0 24px;
+}
+
 .project-tags {
   display: flex;
   flex-wrap: wrap;
@@ -215,6 +222,18 @@ nav {
   border-radius: 6px;
   padding: 24px;
   height: 340px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.chart-challenge-preview{
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 24px;
+  height: 500px;
   display: flex;
   align-items: center;
   justify-content: center;

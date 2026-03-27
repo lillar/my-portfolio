@@ -24,6 +24,7 @@ export default function ChartChallenge() {
                 <p className="project-index">{String(i + 1).padStart(2, "0")} | {project.category.toUpperCase()}</p>
                 <h2 className="project-title">{project.title}</h2>
                 <p className="project-description">{project.description}</p>
+                <p className="project-source">Source: {project.source}</p>
                 <div className="project-tags">
                   {project.tags.map((tag) => (
                     <span key={tag} className="tag">{tag}</span>
@@ -31,7 +32,7 @@ export default function ChartChallenge() {
                 </div>
               </div>
 
-              <div className="project-preview">
+              <div className="chart-challenge-preview">
                 {project.chart}
               </div>
             </div>
