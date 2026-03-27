@@ -1,5 +1,8 @@
 import { chartchallengeprojects } from "../data/chartchallengeprojects.jsx";
 
+const toSlug = (title) =>
+  title.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
+
 export default function ChartChallenge() {
   return (
     <div className="page">
@@ -18,11 +21,23 @@ export default function ChartChallenge() {
 
       <div className="project-list">
         {chartchallengeprojects.map((project, i) => (
-          <section key={project.id} className="project-section">
+          <section key={project.id} id={toSlug(project.title)} className="project-section">
             <div className="project-body">
               <div className="project-text">
-                <p className="project-index">{String(i + 1).padStart(2, "0")} | {project.category.toUpperCase()}</p>
-                <h2 className="project-title">{project.title}</h2>
+                <p className="project-index">
+                  {String(i + 1).padStart(2, "0")} | {project.category.toUpperCase()}
+                </p>
+                <h2
+                  className="project-title"
+                  onClick={() => {
+                    const el = document.getElementById(toSlug(project.title));
+                    el?.scrollIntoView({ behavior: "smooth" });
+                    window.history.pushState(null, "", `#${toSlug(project.title)}`);
+                  }}
+                  style={{ cursor: "pointer" }}
+                >
+                  {project.title}
+                </h2>
                 <p className="project-description">{project.description}</p>
                 <p className="project-source">Source: {project.source}</p>
                 <div className="project-tags">
