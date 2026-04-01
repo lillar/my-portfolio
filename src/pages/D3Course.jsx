@@ -26,17 +26,12 @@ export default function D3Course() {
                     <span key={tag} className="tag">{tag}</span>
                   ))}
                 </div>
-                <a
-                  href={project.github}
-                  className="project-link"
-                  target="_blank"
-                  rel="noopener noreferrer">
-                  View on GitHub &rarr;
-                </a>
               </div>
 
               <div className="project-preview">
-                <img src={project.image} alt={project.title} className="project-image" />
+                <a href={project.github} target="_blank" rel="noopener noreferrer" style={{ cursor: "pointer", display: "block", width: "100%", height: "100%"  }}>
+                 <img src={project.image} alt={project.title} className="project-image" />
+                </a>
               </div>
             </div>
           </section>
