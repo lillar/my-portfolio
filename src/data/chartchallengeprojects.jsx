@@ -8,11 +8,12 @@ export const chartchallengeprojects = [
 {
   id: 1,
   category: "Comparison",
-  title: "Part-to-Whole",
+  topic: "Part-to-Whole",
+  title: "5 continents, unevenly sliced",
   description:
-    "A sunburst chart showing world population by continent and country. The inner ring represents continents, the outer ring shows the top 10 largest countries per continent — together covering 6.4 billion people. Part-to-whole charts reveal how individual pieces contribute to a larger total: here, Asia alone accounts for over 60% of the dataset, driven by India and China each crossing 1.4 billion.",
+    "Two rings, one story: most of us, humans, live in Asia. India and China each are home for more than 1.4 billion people — together they outweigh every other continent. The 10 largest countries per continent already account for 6.4 billion of the world's 8 billion people.",
   source: "UN World Population Prospects 2023",
-  tags: ["D3", "Comparison", "Part-to-Whole", "Sunburst"],
+  tags: [],
   chart: <PopulationSunburst />,
 },
 /*
