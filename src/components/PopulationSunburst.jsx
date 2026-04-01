@@ -9,11 +9,11 @@ const cy = height / 2;
 const radius = Math.min(width, height) / 2;
 
 const continentColors = {
-  Asia:     "#8d6247",  // warm brown
-  Africa:   "#e6b84a",  // golden amber
-  Europe:   "#5a9e7a",  // fresh green
-  Americas: "#5774a9",  // muted blue
-  Oceania:  "#a78bb8",  // dusty mauve
+  Asia:     "#b904ca",  
+  Africa:   "#15bc9d",  
+  Europe:   "#5800FF",  
+  Americas: "#595959",  
+  Oceania:  "#ffc600",  
 };
 
 export default function PopulationSunburst() {
@@ -63,7 +63,7 @@ export default function PopulationSunburst() {
                 strokeWidth={1}
                 onMouseEnter={() => setTooltip(d)}
                 onMouseLeave={() => setTooltip(null)}
-                style={{ cursor: "pointer" }}
+                style={{ cursor: "pointer", opacity: 0.8 }}
               />
               {showLabel && (
                 <text
