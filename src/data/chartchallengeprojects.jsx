@@ -16,17 +16,19 @@ export const chartchallengeprojects = [
   tags: [],
   chart: <PopulationSunburst />,
 },
-/*
+
 {
   id: 2,
   category: "Comparison",
-  title: "Pictogram",
+  topic: "Pictogram",
+  title: "You don't have to be the biggest to have the most trees",
   description:
     "Each rectangle represents a European country, sized by total land area. Tree icons fill from the bottom up based on forest coverage — the more trees, the more forested the country. Finland leads at 66%, Malta barely registers at 1%. Ordered from most to least forested, left to right.",
   source: "Eurostat / FAO Global Forest Resources Assessment 2022",
-  tags: ["D3", "Comparison", "Pictogram", "Treemap"],
+  tags: [],
   chart: <ForestPictogram />,
 },
+/*
 {
   id: 3,
   category: "Comparison",

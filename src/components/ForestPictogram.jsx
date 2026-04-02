@@ -143,14 +143,14 @@ export default function ForestPictogram() {
                 <rect x={0} y={0} width={TW} height={TH}
                   fill="white" stroke="#e2e1dc" rx={4}
                   filter="drop-shadow(0 2px 4px rgba(0,0,0,0.1))" />
-                <text x={10} y={18} fontSize={12} fontWeight={600} fill="#2c2c2c">
+                <text x={10} y={18} fontSize={14} fontWeight={600} fill="#2c2c2c">
                   {tooltip.country}
                 </text>
-                <text x={10} y={34} fontSize={11} fill="#888">
-                  {tooltip.forestPct}% forest coverage
-                </text>
-                <text x={10} y={48} fontSize={11} fill="#888">
+                <text x={10} y={34} fontSize={12} fill="#888">
                   {tooltip.area.toLocaleString()} km²
+                </text>
+                <text x={10} y={48} fontSize={12} fill="#888">
+                  {tooltip.forestPct}% forest coverage
                 </text>
               </g>
             );
