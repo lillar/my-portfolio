@@ -28,17 +28,19 @@ export const chartchallengeprojects = [
   tags: [],
   chart: <ForestPictogram />,
 },
-/*
+
 {
   id: 3,
   category: "Comparison",
-  title: "Mosaic",
+  topic: "Mosaic",
+  title: "Tuning in — how long does the world watch TV?",
   description:
-    "Tuning in — how long does the world watch TV, country by country? Rectangle size represents population, color represents continent, with darker shades for countries watching above their regional average. Where data is missing, we're left with static.",
+    "Explore the habits of the 15 most populated countries of each continent. Rectangle size represents population, color represents continent, with darker shades for countries watching above their regional average. Where data is missing, we're left with static.",
   source: "Médiamétrie One Television Year 2024, Zenith Media",
-  tags: ["D3", "Comparison", "Mosaic", "Treemap"],
+  tags: [],
   chart: <TvTreemap />,
 },
+/*
 {
   id: 4,
   category: "Comparison",

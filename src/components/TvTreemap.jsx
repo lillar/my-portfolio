@@ -108,7 +108,7 @@ export default function TvPictogram() {
         {/* Tooltip */}
         {tooltip && (() => {
           const TW = 220;  // tooltip width
-          const TH = 72;   // tooltip height
+          const TH = 92;   // tooltip height
 
           // flip horizontally if too close to right edge
           const tx = tooltip.x + tooltip.w / 2 + TW > CONTAINER_WIDTH
@@ -131,7 +131,10 @@ export default function TvPictogram() {
               <text x={10} y={42} fontSize={14} fill="#888">
                 {tooltip.continent} · {tooltip.population}M people
               </text>
-              <text x={10} y={60} fontSize={14} fill="#888">
+              <text x={10} y={62} fontSize={14} fill="#888">
+                Regional avg: {regionalAvg[tooltip.continent].toFixed(1)} min/day
+              </text>
+              <text x={10} y={80} fontSize={14} fill="#888">
                 {tooltip.minutes
                   ? `${tooltip.minutes} min/day ${tooltip.minutes >= regionalAvg[tooltip.continent] ? "↑ above" : "↓ below"} avg`
                   : "no data"}
