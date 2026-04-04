@@ -10,7 +10,7 @@ const colors = {
   Oceania:  { dark: "#ffc600", light: "#ffe080" },
 };
 
-const CONTAINER_WIDTH = 700;
+const CONTAINER_WIDTH = 650;
 const CONTAINER_HEIGHT = 600;
 
 export default function TvPictogram() {
@@ -63,10 +63,11 @@ export default function TvPictogram() {
   };
 
   return (
-    <div style={{ position: "relative", width: "100%" }}>
+    <div style={{ position: "relative", width: "100%", height:"100%"}}>
       <svg
         viewBox={`0 0 ${CONTAINER_WIDTH} ${CONTAINER_HEIGHT}`}
         width="100%"
+        
         style={{ display: "block" }}
       >
         <defs>
@@ -147,7 +148,7 @@ export default function TvPictogram() {
       {/* Legend */}
       <div style={{
         display: "flex", flexWrap: "wrap", gap: 16,
-        marginTop: 16, justifyContent: "center",
+        marginTop: 8, justifyContent: "center",
         fontFamily: "var(--mono)", fontSize: 11,
       }}>
         {Object.entries(colors).map(([continent, { dark, light }]) => (

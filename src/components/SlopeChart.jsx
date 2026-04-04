@@ -108,7 +108,7 @@ export default function SlopeChart() {
   const legendGap = 70;
 
   return (
-    <div style={{ width: "100%", position: "relative" }}>
+    <div style={{ width: "100%", height: "100%", position: "relative" }}>
 
       {/* ── Fix 1+2: Hamburger in legend strip, top-aligned ── */}
       <div ref={menuRef} style={{
@@ -186,7 +186,7 @@ export default function SlopeChart() {
       )}
 
       {/* ── SVG chart ── */}
-      <svg viewBox={`0 0 ${width} ${height}`} width="100%" style={{ display: "block", overflow: "visible" }}>
+      <svg viewBox={`0 0 ${width} ${height}`} width="100%" height="100%" style={{ display: "block", overflow: "visible" }}>
 
         {/* ── Fix 1: legend — dot BEFORE text, vertical, inside SVG ── */}
         {/* "wage covers costs" — upper */}

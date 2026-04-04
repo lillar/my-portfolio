@@ -231,6 +231,7 @@ nav {
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .chart-challenge-preview{
@@ -238,11 +239,12 @@ nav {
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 24px;
-  min-height: 500px;
+  height: 500px;
   display: flex;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .project-image {
