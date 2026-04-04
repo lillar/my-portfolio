@@ -3,6 +3,7 @@ import TvTreemap from "../components/TvTreemap";
 import SlopeChart from "../components/SlopeChart";
 import ForestPictogram from "../components/ForestPictogram";
 import ClimateAreaChart from "../components/ClimateAreaChart";
+import PressFreedomMap from "../components/PressFreedomMap";
 
 export const chartchallengeprojects = [
 {
@@ -40,36 +41,42 @@ export const chartchallengeprojects = [
   tags: [],
   chart: <TvTreemap />,
 },
-/*
+
 {
   id: 4,
   category: "Comparison",
-  title: "Slope",
+  topic: "Slope",
+  title: "What minimum wage actually buys",
   description:
-    "A slope chart comparing monthly minimum wage against average cost of living across 27 European countries. Green lines show where the minimum wage covers living costs — red where it falls short. Use the dropdown to highlight your country.",
+    "A slope chart comparing monthly minimum wage against average cost of living across 27 European countries. Green lines show where the minimum wage covers living costs — magenta where it falls short. Click ☰ to highlight your country.",
   source: "Eurostat 2025, Numbeo 2025",
-  tags: ["D3", "Comparison", "Slope"],
+  tags: [],
   chart: <SlopeChart />,
 },
+/*
 {
   id: 5,
   category: "Comparison",
-  title: "Experimental",
+  topic: "Experimental",
+  title: "A century of warming",
   description:
-    "Monthly temperature anomalies for every decade since 1880, overlaid on the same axes. The dashed line is the average across all decades. Navigate through chapters to see how each era compares — from pre-industrial stability to the record-breaking 2020s. Inspired by Tamas Varga.",
+    "Monthly temperature anomalies for every decade since 1880, overlaid on the same axes. The dashed line is the average across all decades. Navigate through chapters to see how each era compares — from pre-industrial stability to the record-breaking 2020s. Inspired by Tamas Varga and the Visualizing Climate 2026 conference.",
   source: "NASA GISS Surface Temperature Analysis (GISTEMP v4), 2024",
-  tags: ["D3", "Comparison", "Area"],
+  tags: [],
   chart: <ClimateAreaChart />,
 },
+
 {
   id: 6,
   category: "Comparison",
+  topic: "Data Day",
   title: "Data Day - Reporters Without Borders",
   description:
     "",
   source: "",
-  tags: ["D3", "Comparison"],
-  chart: "",
+  tags: [],
+  chart: <PressFreedomMap />,
 },
+
 */
 ];
