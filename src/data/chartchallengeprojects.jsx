@@ -53,19 +53,19 @@ export const chartchallengeprojects = [
   tags: [],
   chart: <SlopeChart />,
 },
-/*
+
 {
   id: 5,
   category: "Comparison",
   topic: "Experimental",
   title: "A century of warming",
   description:
-    "Monthly temperature anomalies for every decade since 1880, overlaid on the same axes. The dashed line is the average across all decades. Navigate through chapters to see how each era compares — from pre-industrial stability to the record-breaking 2020s. Inspired by Tamas Varga and the Visualizing Climate 2026 conference.",
+    "Monthly temperature anomalies at the beginning of each decade since 1880, overlaid on the same axes. Navigate through chapters to see how each era compares — from pre-industrial stability to the record-breaking 2020s. Inspired by Tamas Varga and the Visualizing Climate 2026 conference.",
   source: "NASA GISS Surface Temperature Analysis (GISTEMP v4), 2024",
   tags: [],
   chart: <ClimateAreaChart />,
 },
-
+/*
 {
   id: 6,
   category: "Comparison",
