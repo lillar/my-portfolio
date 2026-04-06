@@ -1,10 +1,22 @@
 import { useState, useRef, useEffect } from "react";
-import * as d3 from "d3";
 import { pressFreedomData } from "../data/pressFreedomData";
 
-const colorScale = d3.scaleSequential()
-  .domain([100, 0])
-  .interpolator(d3.interpolateRgbBasis(["#15bc9d", "#5800FF", "#b904ca"]));
+const CATEGORY_COLORS = [
+  "#b904ca",  // 0–40   very serious
+  "#5800FF",  // 41–55  difficult
+  "#a855f7",  // 56–70  problematic
+  "#15bc9d",  // 71–85  satisfactory
+  "#0d9e83",  // 86–100 good
+];
+
+const colorScale = (score) => {
+  if (score === null) return "var(--border)";
+  if (score <= 40)  return CATEGORY_COLORS[0];
+  if (score <= 55)  return CATEGORY_COLORS[1];
+  if (score <= 70)  return CATEGORY_COLORS[2];
+  if (score <= 85)  return CATEGORY_COLORS[3];
+  return CATEGORY_COLORS[4];
+};
 
 const TILE = 16;
 const GAP = 2;
@@ -13,18 +25,24 @@ const RADIUS = 2.5;
 const COLS = 27;
 const ROWS = 18;
 const SVG_W = COLS * STEP;
-const SVG_H = ROWS * STEP + 20;
+const SVG_H = ROWS * STEP;
 const GREY = "var(--border)";
 
 // Sorted country list for dropdown (only RSF-indexed countries)
 const sortedCountries = [...pressFreedomData]
-  .sort((a, b) => a.country.localeCompare(b.country));
+  .sort((a, b) => {
+    if (a.rank === null && b.rank === null) return 0;
+    if (a.rank === null) return 1;
+    if (b.rank === null) return -1;
+    return a.rank - b.rank;
+  });
 
 export default function PressFreedomMap() {
   const [tooltip, setTooltip] = useState(null);
   const [selected, setSelected] = useState("All");
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
+  const containerRef = useRef(null);
 
   useEffect(() => {
     const handler = (e) => {
@@ -39,21 +57,36 @@ export default function PressFreedomMap() {
   const isHighlighted = (d) => selected === "All" || d.iso2 === selected;
 
   const handleMouseEnter = (e, d) => {
-    const rect = e.currentTarget.closest("div")?.getBoundingClientRect();
+    const rect = containerRef.current?.getBoundingClientRect();
     if (!rect) return;
     setTooltip({
       country: d.country,
       rank: d.rank,
       score: d.score,
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
+      x: e.clientX,
+      y: e.clientY,
     });
   };
 
   const selectedData = pressFreedomData.find((d) => d.iso2 === selected);
 
   return (
-    <div style={{ width: "100%", position: "relative" }}>
+    <div ref={containerRef} style={{ width: "100%", position: "relative", display: "flex", flexDirection: "column", gap: 16 }}>
+      <div>
+        <div style={{
+          fontSize: 14, fontWeight: 600,
+          fontFamily: "var(--mono)", color: "var(--text)",
+          marginBottom: 4, textAlign: "center"
+        }}>
+          Press Freedom Index 2025
+        </div>
+        <div style={{
+          fontSize: 11, color: "var(--text-muted)",
+          fontFamily: "var(--mono)", lineHeight: 1.5,
+        }}>
+          RSF ranks 180 countries on press freedom. Each tile is a country — colour shows its global score.
+        </div>
+      </div>
 
       {/* ── Hamburger + selected pill ── */}
       <div style={{
@@ -106,7 +139,7 @@ export default function PressFreedomMap() {
                 }}
               >All countries</div>
 
-              {/* Country list — alphabetical */}
+              {/* Country list — by rank */}
               {sortedCountries.map((d) => (
                 <div
                   key={d.iso2}
@@ -118,7 +151,9 @@ export default function PressFreedomMap() {
                     background: selected === d.iso2 ? "var(--tag-bg)" : "transparent",
                     color: selected === d.iso2 ? "var(--text)" : "var(--text-muted)",
                     fontWeight: selected === d.iso2 ? 600 : 400,
-                    display: "flex", justifyContent: "space-between", gap: 12,
+                    display: "flex", 
+                    justifyContent: "space-between", 
+                    gap: 12,
                   }}
                 >
                   <span>{d.country}</span>
@@ -141,6 +176,9 @@ export default function PressFreedomMap() {
             padding: "2px 8px",
             fontFamily: "var(--mono)", fontSize: 10,
             color: "var(--text)",
+            position: "absolute",
+            left: "50%",
+            transform: "translateX(-50%)",
           }}>
             <span
               style={{
@@ -200,7 +238,7 @@ export default function PressFreedomMap() {
       {/* Tooltip */}
       {tooltip && (
         <div style={{
-          position: "absolute",
+          position: "fixed",
           left: tooltip.x + 12,
           top: tooltip.y - 12,
           background: "var(--bg)",
@@ -213,7 +251,7 @@ export default function PressFreedomMap() {
           pointerEvents: "none",
           boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
           zIndex: 50,
-          whiteSpace: "nowrap",
+          whiteSpace: "nowrap"
         }}>
           <div style={{ fontWeight: 600, marginBottom: 4 }}>{tooltip.country}</div>
           {tooltip.score !== null ? (
@@ -227,31 +265,27 @@ export default function PressFreedomMap() {
         </div>
       )}
 
-      {/* Legend */}
-      <div style={{
-        display: "flex", alignItems: "center", gap: 8,
-        justifyContent: "center", marginTop: 6,
-        fontFamily: "var(--mono)", fontSize: 10,
-        color: "var(--text-muted)",
-      }}>
-        <span>Most free</span>
-        <svg width={140} height={12}>
-          <defs>
-            <linearGradient id="pfGrad" x1="0%" x2="100%">
-              <stop offset="0%"   stopColor="#15bc9d" />
-              <stop offset="50%"  stopColor="#5800FF" />
-              <stop offset="100%" stopColor="#b904ca" />
-            </linearGradient>
-          </defs>
-          <rect x={0} y={2} width={140} height={8} rx={4} fill="url(#pfGrad)" />
-        </svg>
-        <span>Least free</span>
-        <div style={{
-          width: 12, height: 12, borderRadius: 2,
-          background: GREY, opacity: 1, marginLeft: 8,
-        }} />
-        <span>No data</span>
-      </div>
+{/* Legend */}
+<div style={{
+  display: "flex", alignItems: "center", gap: 12,
+  justifyContent: "center", marginTop: 6,
+  fontFamily: "var(--mono)", fontSize: 10,
+  color: "var(--text-muted)", flexWrap: "wrap",
+}}>
+  {[
+    { label: "0–40",   color: CATEGORY_COLORS[0] },
+    { label: "41–55",  color: CATEGORY_COLORS[1] },
+    { label: "56–70",  color: CATEGORY_COLORS[2] },
+    { label: "71–85",  color: CATEGORY_COLORS[3] },
+    { label: "86–100", color: CATEGORY_COLORS[4] },
+    { label: "No data", color: "var(--border)" },
+  ].map(({ label, color }) => (
+    <div key={label} style={{ display: "flex", alignItems: "center", gap: 4 }}>
+      <div style={{ width: 10, height: 10, borderRadius: 2, background: color, opacity: color === "var(--border)" ? 0.6 : 0.92 }} />
+      <span>{label}</span>
+    </div>
+  ))}
+</div>
     </div>
   );
 }

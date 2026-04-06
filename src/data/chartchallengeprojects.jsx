@@ -65,18 +65,18 @@ export const chartchallengeprojects = [
   tags: [],
   chart: <ClimateAreaChart />,
 },
-/*
+
 {
   id: 6,
   category: "Comparison",
   topic: "Data Day",
-  title: "Data Day - Reporters Without Borders",
+  title: "Reporters Without Borders",
   description:
-    "",
-  source: "",
+    "One square, one country, one score. The RSF Press Freedom Index ranks 180 countries on how safely and freely journalists can report. Teal means freedom. Magenta means silence. Most of the world sits somewhere in between.",
+  source: "rsf.org, 2025",
   tags: [],
   chart: <PressFreedomMap />,
 },
 
-*/
+
 ];
