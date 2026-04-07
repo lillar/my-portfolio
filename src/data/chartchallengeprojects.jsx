@@ -4,6 +4,7 @@ import SlopeChart from "../components/SlopeChart";
 import ForestPictogram from "../components/ForestPictogram";
 import ClimateAreaChart from "../components/ClimateAreaChart";
 import PressFreedomMap from "../components/PressFreedomMap";
+import DivergingBarChart from "../components/DivergingBarChart";
 
 export const chartchallengeprojects = [
 {
@@ -78,5 +79,15 @@ export const chartchallengeprojects = [
   chart: <PressFreedomMap />,
 },
 
-
+{
+  id: 7,
+  category: "Distribution",
+  topic: "Multiscale",
+  title: "Never grow apart!",
+description:
+  "Since 1990, the EU has grown its economy by nearly 70% while cutting greenhouse gas emissions by 36%. Each bar tells a year's story: teal rises when GDP grows, magenta rises when emissions drop. The best years are when both bars go up simultaneously — more economy, less carbon. 2009 and 2020 are the exceptions: both crash together, not from clean policy, but because economies simply stopped.",
+  source: "World Bank (GDP growth), European Environment Agency (GHG emissions), 1995–2023",
+  tags: [],
+  chart: <DivergingBarChart />,
+},
 ];
