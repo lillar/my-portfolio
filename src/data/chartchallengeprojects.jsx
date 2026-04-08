@@ -5,6 +5,8 @@ import ForestPictogram from "../components/ForestPictogram";
 import ClimateAreaChart from "../components/ClimateAreaChart";
 import PressFreedomMap from "../components/PressFreedomMap";
 import DivergingBarChart from "../components/DivergingBarChart";
+import RoseChart from "../components/RoseChart";
+import WealthMap from "../components/WealthMap";
 
 export const chartchallengeprojects = [
 {
@@ -90,4 +92,29 @@ description:
   tags: [],
   chart: <DivergingBarChart />,
 },
+
+{
+  id: 8,
+  category: "Distribution",
+  topic: "Circular",
+  title: "When Europe switches on",
+  description:
+    "Every hour of every day, Europe draws hundreds of gigawatts from the grid. This rose chart shows the average hourly electricity load across EU-27 by season — each slice is one hour of the day, its radius the average demand in gigawatts. The pattern is consistent year-round: demand collapses overnight, surges at 08:00 as industry wakes up, holds through the working day, and fades again after 21:00. Winter sits heaviest on the grid. Spring is the lightest touch.",
+  source: "ENTSO-E Transparency Platform, European Environment Agency, 2023 average workday",
+  tags: [],
+  chart: <RoseChart />,
+},
+/*
+{
+  id: 9,
+  category: "Distribution",
+  topic: "Wealth",
+  title: "",
+  description:
+    "",
+  source: "",
+  tags: [],
+  chart: <WealthMap />,
+},
+*/
 ];
