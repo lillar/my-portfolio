@@ -104,17 +104,17 @@ description:
   tags: [],
   chart: <RoseChart />,
 },
-/*
+
 {
   id: 9,
   category: "Distribution",
   topic: "Wealth",
-  title: "",
+  title: "What the average hides",
   description:
-    "",
-  source: "",
+    "Household net wealth = everything you own (property, savings, investments) minus everything you owe (mortgages, loans). Each tile shows one EU country: the left edge of the ramp is the median household — the most typical — and the right edge is the mean. The steeper the angle, the more a wealthy minority pulls the average away from reality. For example, Germany and the Netherlands look poor by median but wealthy by mean — because most households rent, while a few own significant assets.",
+  source: "ECB Household Finance and Consumption Survey (HFCS), Wave 4 (2021)",
   tags: [],
   chart: <WealthMap />,
 },
-*/
+
 ];
