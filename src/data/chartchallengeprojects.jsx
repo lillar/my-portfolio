@@ -7,6 +7,8 @@ import PressFreedomMap from "../components/PressFreedomMap";
 import DivergingBarChart from "../components/DivergingBarChart";
 import RoseChart from "../components/RoseChart";
 import WealthMap from "../components/WealthMap";
+import MelkwegChart from "../components/MelkwegUnitChart";
+import ElevationChart from "../components/ElevationHistogramChart";
 
 export const chartchallengeprojects = [
 {
@@ -117,4 +119,40 @@ description:
   chart: <WealthMap />,
 },
 
+{
+  id: 10,
+  category: "Distribution",
+  topic: "Pop Culture",
+  title: "A night at the ... Melkweg",
+  description:
+    "50 past concerts at Amsterdam's Melkweg — one of the Netherlands' most iconic music venues and my personal favorite. Each dot is a concert: filled means sold out, hollow means it wasn't. Color tells you where the artist came from. Indie and Electronic dominate the agenda, but Hiphop and R&B sell out fastest. European acts make up the majority, with a strong international presence — Dutch artists are a small but loyal slice.",
+  source: "Melkweg Amsterdam agenda (melkweg.nl), concerts Oct 2025 – Mar 2026. Nationality based on artist country of origin. Sold-out status reflects Melkweg's own ticketing labels and may not capture partial sell-outs or last-minute availability. Note: sold-out status and genre tags are sourced from the Melkweg website as listed at time of the show. Some genre classifications are approximate — Melkweg often tags acts with multiple overlapping genres, and this chart uses the primary one.",
+  tags: [],
+  chart: <MelkwegChart />,
+},
+/*
+{
+  id: 11,
+  category: "Distribution",
+  topic: "Physical",
+  title: "",
+  description:
+    "",
+  source: "",
+  tags: [],
+  chart: <ElevationChart />,
+},
+
+{
+  id: 12,
+  category: "Distribution",
+  topic: "Theme Day",
+  title: "FlowingData",
+  description:
+    "",
+  source: "",
+  tags: [],
+  chart: "",
+},
+*/
 ];

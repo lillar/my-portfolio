@@ -11,7 +11,7 @@ export default function ChartChallenge() {
         <p className="page-eyebrow">April 2026</p>
         <h1 className="page-title">#30DayChartChallenge</h1>
         <p className="page-subtitle">
-          One chart per day for 30 days. Each entry follows a daily prompt
+          One chart per day for 30 days working with Claude. Each entry follows a daily prompt
           from the{" "}
           <a href="https://github.com/30DayChartChallenge/Edition2026" target="_blank" rel="noopener noreferrer">
             30 Day Chart Challenge Edition 2026
