@@ -1,63 +1,96 @@
 import { useState } from "react";
-import * as d3 from "d3";
 import { elevationBands, summary } from "../data/elevationData";
 
-const COLOR_WATER = "#15bc9d";  // teal  — below sea level
-const COLOR_LAND  = "#ffc600";  // ochre — above sea level
+const COLOR_BELOW  = "#15bc9d";  // teal
+const COLOR_ATRISK = "#f97316";  // orange
+const COLOR_SAFE   = "#ffc600";  // ochre
+
+// ── Zone definitions ──────────────────────────────────────
+const zones = [
+  {
+    id: "below",
+    label: "Below sea level",
+    fromM: -7, toM: 0,
+    color: COLOR_BELOW,
+    pct: elevationBands.filter(b => b.to <= 0).reduce((s, b) => s + b.pct, 0),
+    risk: "Flooded instantly if dikes fail",
+  },
+  {
+    id: "atrisk",
+    label: "0m – 5m",
+    fromM: 0, toM: 5,
+    color: COLOR_ATRISK,
+    pct: elevationBands.filter(b => b.from >= 0 && b.to <= 5).reduce((s, b) => s + b.pct, 0),
+    risk: "Above sea level but inside dike rings — at risk from dike breach or river surge",
+  },
+  {
+    id: "safe",
+    label: "5m – 323m",
+    fromM: 5, toM: 323,
+    color: COLOR_SAFE,
+    pct: elevationBands.filter(b => b.from >= 5).reduce((s, b) => s + b.pct, 0),
+    risk: "Relatively safe — natural drainage, outside dike zones",
+  },
+];
 
 // ── Layout ────────────────────────────────────────────────
-const width   = 500;
-const height  = 440;
-const margin  = { top: 24, right: 160, bottom: 40, left: 56 };
-const innerW  = width  - margin.left - margin.right;
-const innerH  = height - margin.top  - margin.bottom;
+const width  = 480;
+const height = 480;
+const margin = { top: 10, right: 160, bottom: 20, left: 56 };
+const innerW = width  - margin.left - margin.right;
+const innerH = height - margin.top  - margin.bottom;
 
-// ── Y scale: elevation in metres ─────────────────────────
-// Use a linear scale but with a break: compress 50–323m range
-// so the chart doesn't waste space on the rare high-elevation tail.
-// We map elevation → pixel using two linear segments:
-//   −7 to +50m  → 0 to innerH * 0.85   (fine detail)
-//   50  to +323m → innerH * 0.85 to innerH  (compressed tail)
-const BREAK_ELEV = 50;
-const BREAK_PX   = innerH * 0.18; // top 18% of chart = 50–323m
+// ── Y: sqrt-compressed so all 3 zones are readable ────────
+// Height ∝ sqrt(metre range) — compresses the 317m safe zone
+// so −7→0m (7m) and 0→5m (5m) are visible
+const sqrtM  = (m) => Math.sqrt(Math.abs(m));
+const totalS = sqrtM(7) + sqrtM(5) + sqrtM(318);
+const zoneH  = {
+  below:  sqrtM(7)   / totalS * innerH,
+  atrisk: sqrtM(5)   / totalS * innerH,
+  safe:   sqrtM(318) / totalS * innerH,
+};
 
+// Y pixel boundaries (SVG top = high elevation)
+const Y = {
+  top:    margin.top,
+  atrisk: margin.top + zoneH.safe,                   // 5m line
+  below:  margin.top + zoneH.safe + zoneH.atrisk,    // 0m = sea level
+  bottom: margin.top + innerH,
+};
+
+// ── X: width derived so that width × height ∝ km² ────────
+// width = pct / zoneH → width × zoneH = pct = land area
+// Normalise so the largest ratio fills innerW
+const rawZoneW = (z) => z.pct / zoneH[z.id];
+const maxRaw   = Math.max(...zones.map(rawZoneW));
+const zoneW    = (z) => (rawZoneW(z) / maxRaw) * innerW;
+
+// ── Y axis: elevation → pixel ─────────────────────────────
 function elevToY(elev) {
-  if (elev >= BREAK_ELEV) {
-    // 50–323 compressed into top 18%
-    return margin.top + BREAK_PX * (1 - (elev - BREAK_ELEV) / (323 - BREAK_ELEV));
-  } else {
-    // −7 to 50: linear, bottom 82%
-    return margin.top + BREAK_PX + (innerH - BREAK_PX) * (1 - (elev - (-7)) / (BREAK_ELEV - (-7)));
-  }
+  if (elev >= 5)  return Y.top    + zoneH.safe   * (1 - (elev - 5)   / (323 - 5));
+  if (elev >= 0)  return Y.atrisk + zoneH.atrisk * (1 - elev / 5);
+  return                 Y.below  + zoneH.below  * (1 - (elev + 7) / 7);
 }
 
-const seaLevelY = elevToY(0);
-
-// ── X scale: % of land area ───────────────────────────────
-const maxPct = d3.max(elevationBands, (d) => d.pct); // ~13.2
-const xScale = d3.scaleLinear()
-  .domain([0, maxPct * 1.08])
-  .range([0, innerW]);
-
-// ── Y axis ticks ─────────────────────────────────────────
-const yTicks = [-6, -4, -2, 0, 2, 5, 10, 20, 50, 100, 200, 322];
+// ── Text wrapping helper ──────────────────────────────────
+function splitText(text, maxChars = 28) {
+  const words = text.split(" ");
+  const lines = [];
+  let current = "";
+  words.forEach(word => {
+    if ((current + " " + word).trim().length > maxChars) {
+      lines.push(current.trim());
+      current = word;
+    } else {
+      current = (current + " " + word).trim();
+    }
+  });
+  if (current) lines.push(current);
+  return lines;
+}
 
 export default function ElevationChart() {
-  const [hovered, setHovered] = useState(null);
-  const [tooltip, setTooltip] = useState(null);
-
-  const handleEnter = (e, band) => {
-    const rect = e.currentTarget.closest("div")?.getBoundingClientRect();
-    if (!rect) return;
-    setHovered(band.label);
-    setTooltip({
-      label: band.label,
-      pct: band.pct,
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  };
-  const handleLeave = () => { setHovered(null); setTooltip(null); };
 
   return (
     <div style={{ width: "100%", position: "relative", fontFamily: "var(--mono)" }}>
@@ -67,237 +100,135 @@ export default function ElevationChart() {
         preserveAspectRatio="xMidYMid meet"
         style={{ display: "block" }}
       >
-        {/* ── Background zones ── */}
-        {/* Below sea level — teal tint */}
-        <rect
-          x={margin.left} y={seaLevelY}
-          width={innerW} height={margin.top + innerH - seaLevelY}
-          fill={COLOR_WATER} fillOpacity={0.06}
-        />
-        {/* Above sea level — ochre tint */}
-        <rect
-          x={margin.left} y={margin.top}
-          width={innerW} height={seaLevelY - margin.top}
-          fill={COLOR_LAND} fillOpacity={0.06}
-        />
-
-        {/* ── X gridlines ── */}
-        {[0, 2, 4, 6, 8, 10, 12].map((t) => (
-          <line key={t}
-            x1={margin.left + xScale(t)} x2={margin.left + xScale(t)}
-            y1={margin.top} y2={margin.top + innerH}
-            stroke="var(--border)"
-            strokeWidth={t === 0 ? 1 : 0.4}
-            strokeDasharray={t === 0 ? "none" : "3 3"}
-          />
-        ))}
-
-        {/* ── Bars ── */}
-        {elevationBands.map((b) => {
-          const y0    = elevToY(b.from);
-          const y1    = elevToY(b.to);
-          const barY  = Math.min(y0, y1);
-          const barH  = Math.abs(y0 - y1);
-          const barW  = xScale(b.pct);
-          const color = b.to <= 0 ? COLOR_WATER : COLOR_LAND;
-          const isHov = hovered === b.label;
+        {/* ── Zone rectangles ── */}
+        {[
+          { zone: "safe",   y: Y.top,    h: zoneH.safe   },
+          { zone: "atrisk", y: Y.atrisk, h: zoneH.atrisk },
+          { zone: "below",  y: Y.below,  h: zoneH.below  },
+        ].map(({ zone, y, h }) => {
+          const z   = zones.find(z => z.id === zone);
+          const w   = zoneW(z);
 
           return (
-            <rect
-              key={b.label}
-              x={margin.left}
-              y={barY}
-              width={barW}
-              height={Math.max(barH - 1, 1)}
-              fill={color}
-              fillOpacity={isHov ? 1 : 0.78}
-              stroke={isHov ? "var(--text)" : "none"}
-              strokeWidth={1}
-              onMouseEnter={(e) => handleEnter(e, b)}
-              onMouseLeave={handleLeave}
-              style={{ cursor: "crosshair" }}
-            />
+            <g key={zone}
+              style={{ cursor: "default" }}>
+
+              {/* Rectangle — area ∝ km² of land */}
+              <rect
+                x={margin.left} y={y + 1}
+                width={w} height={h - 2}
+                fill={z.color}
+                fillOpacity={0.95}
+              />
+
+              {/* % label — inside if bar wide enough, outside if not */}
+              {(() => {
+                const labelW = z.pct >= 10 ? 36 : 28; // estimated label width in px
+                const inside = w > labelW + 12;
+                return (
+                  <text
+                    x={inside ? margin.left + w - 8 : margin.left + w + 8}
+                    y={inside ? y + h / 2 : y + h / 2 - 28}
+                    textAnchor={inside ? "end" : "start"}
+                    dominantBaseline="middle"
+                    fontSize={h > 40 ? 14 : 10}
+                    fontFamily="var(--mono)" fontWeight={700}
+                    fill={inside ? "var(--bg)" : z.color}
+                    pointerEvents="none">
+                    {z.pct.toFixed(1)}%
+                  </text>
+                );
+              })()}
+
+              {/* Right-side: zone label + risk description */}
+              <text
+                x={margin.left + w + 10}
+                y={y + h / 2 - (h > 30 ? 8 : 4)}
+                fontSize={10} fontFamily="var(--mono)"
+                fontWeight={700} fill={z.color}>
+                {z.label}
+              </text>
+              {splitText(z.risk).map((line, i) => (
+                <text key={i}
+                  x={margin.left + w + 10}
+                  y={y + h / 2 + (h > 30 ? 4 : 6) + i * 10}
+                  fontSize={9} fontFamily="var(--mono)"
+                  fill="var(--text-muted)">
+                  {line}
+                </text>
+              ))}
+            </g>
           );
         })}
 
+        {/* ── Y axis line ── */}
+        <line
+          x1={margin.left} x2={margin.left}
+          y1={Y.top} y2={Y.bottom}
+          stroke="var(--border)" strokeWidth={0.8}
+        />
+
         {/* ── Sea level line ── */}
         <line
-          x1={margin.left - 8} x2={margin.left + innerW}
-          y1={seaLevelY} y2={seaLevelY}
+          x1={margin.left - 10}
+          x2={margin.left + zoneW(zones.find(z => z.id === "atrisk"))}
+          y1={Y.below} y2={Y.below}
           stroke="var(--text)" strokeWidth={1.5}
         />
-        <text
-          x={margin.left - 10} y={seaLevelY}
-          textAnchor="end" dominantBaseline="middle"
-          fontSize={8} fontWeight={700}
-          fontFamily="var(--mono)" fill="var(--text)">
-          0m
-        </text>
 
         {/* ── Y axis ticks ── */}
-        {yTicks.map((t) => {
-          const y = elevToY(t);
-          if (t === 0) return null; // already drawn above
+        {[
+          { elev: 322, label: "+322m", bold: true },
+          { elev: 5,   label: "+5m",   bold: true  },
+          { elev: 0,   label: "0m",    bold: true  },
+          { elev: -7,  label: "−7m",   bold: true  },
+        ].map(({ elev, label, bold }) => {
+          const y = elevToY(elev);
           return (
-            <g key={t}>
+            <g key={elev}>
               <line
-                x1={margin.left - 4} x2={margin.left}
+                x1={margin.left - 5} x2={margin.left}
                 y1={y} y2={y}
-                stroke="var(--border)" strokeWidth={0.8}
+                stroke={bold ? "var(--text)" : "var(--border)"}
+                strokeWidth={bold ? 1.2 : 0.6}
               />
               <text
-                x={margin.left - 7} y={y}
+                x={margin.left - 8} y={y}
                 textAnchor="end" dominantBaseline="middle"
-                fontSize={7.5} fontFamily="var(--mono)"
-                fill="var(--text-muted)">
-                {t > 0 ? `+${t}m` : `${t}m`}
+                fontSize={bold ? 9 : 7.5} fontFamily="var(--mono)"
+                fontWeight={bold ? 700 : 400}
+                fill={bold ? "var(--text)" : "var(--text-muted)"}>
+                {label}
               </text>
             </g>
           );
         })}
 
-        {/* Y axis baseline */}
-        <line
-          x1={margin.left} x2={margin.left}
-          y1={margin.top} y2={margin.top + innerH}
-          stroke="var(--border)" strokeWidth={0.8}
-        />
-
-        {/* ── X axis ── */}
-        <line
-          x1={margin.left} x2={margin.left + innerW}
-          y1={margin.top + innerH} y2={margin.top + innerH}
-          stroke="var(--border)" strokeWidth={0.8}
-        />
-        {[0, 2, 4, 6, 8, 10, 12].map((t) => (
-          <text key={t}
-            x={margin.left + xScale(t)}
-            y={margin.top + innerH + 12}
-            textAnchor="middle" fontSize={8}
-            fontFamily="var(--mono)" fill="var(--text-muted)">
-            {t}%
-          </text>
-        ))}
+        {/* ── "sea level" text ── */}
         <text
-          x={margin.left + innerW / 2}
-          y={margin.top + innerH + 28}
-          textAnchor="middle" fontSize={8}
+          x={margin.left - 8} y={Y.below - 8}
+          textAnchor="end" fontSize={9}
           fontFamily="var(--mono)" fill="var(--text-muted)">
-          % of land area
+          Sea level
         </text>
 
         {/* ── Scale break indicator ── */}
         <text
-          x={margin.left - 7}
-          y={margin.top + BREAK_PX}
-          textAnchor="end" dominantBaseline="middle"
-          fontSize={7} fontFamily="var(--mono)"
-          fill="var(--text-muted)">
+          x={margin.left - 8} y={(Y.top + Y.atrisk) / 2}
+          textAnchor="end" fontSize={9}
+          fontFamily="var(--mono)" fill="var(--text-muted)">
           ≈
         </text>
 
-        {/* ── Right-side annotations ── */}
-        {[
-          { elevation: -7.0,  label: "Zuidplaspolder",  note: "lowest point in NL" },
-          { elevation: -4.0,  label: "Schiphol Airport", note: "" },
-          { elevation: -2.0,  label: "Amsterdam",        note: "city centre" },
-          { elevation: 322.7, label: "Vaalserberg",      note: "highest point in NL" },
-        ].map(({ elevation, label, note }) => {
-          const y = elevToY(elevation);
-          return (
-            <g key={label}>
-              <line
-                x1={margin.left + innerW} x2={margin.left + innerW + 8}
-                y1={y} y2={y}
-                stroke="var(--text-muted)" strokeWidth={0.8}
-              />
-              <text
-                x={margin.left + innerW + 11} y={y - 4}
-                fontSize={8} fontFamily="var(--mono)"
-                fontWeight={600} fill="var(--text)">
-                {label}
-              </text>
-              {note && (
-                <text
-                  x={margin.left + innerW + 11} y={y + 6}
-                  fontSize={7} fontFamily="var(--mono)"
-                  fill="var(--text-muted)">
-                  {note}
-                </text>
-              )}
-            </g>
-          );
-        })}
-
-        {/* ── Summary callouts ── */}
-        {/* Below sea level */}
+        {/* ── Y axis label ── */}
         <text
-          x={margin.left + innerW + 11}
-          y={seaLevelY + (margin.top + innerH - seaLevelY) * 0.4}
-          fontSize={20} fontFamily="var(--mono)" fontWeight={700}
-          fill={COLOR_WATER} fillOpacity={0.9}>
-          {summary.belowSeaLevel}%
+          transform={`translate(10, ${Y.top + innerH / 2}) rotate(-90)`}
+          textAnchor="middle" fontSize={9}
+          fontFamily="var(--mono)" fill="var(--text-muted)">
+          Elevation (m)
         </text>
-        <text
-          x={margin.left + innerW + 11}
-          y={seaLevelY + (margin.top + innerH - seaLevelY) * 0.4 + 14}
-          fontSize={7.5} fontFamily="var(--mono)"
-          fill="var(--text-muted)">
-          below sea level
-        </text>
-
-        {/* Flood prone */}
-        <text
-          x={margin.left + innerW + 11}
-          y={seaLevelY + (margin.top + innerH - seaLevelY) * 0.72}
-          fontSize={20} fontFamily="var(--mono)" fontWeight={700}
-          fill={COLOR_LAND} fillOpacity={0.9}>
-          {summary.floodProne}%
-        </text>
-        <text
-          x={margin.left + innerW + 11}
-          y={seaLevelY + (margin.top + innerH - seaLevelY) * 0.72 + 14}
-          fontSize={7.5} fontFamily="var(--mono)"
-          fill="var(--text-muted)">
-          flood-prone
-        </text>
-
-        {/* ── Legend ── */}
-        <g transform={`translate(${margin.left}, ${height - 14})`}>
-          <rect x={0} y={-5} width={10} height={10} rx={2}
-            fill={COLOR_WATER} fillOpacity={0.8} />
-          <text x={14} y={3} fontSize={8} fontFamily="var(--mono)"
-            dominantBaseline="middle" fill="var(--text-muted)">
-            below sea level
-          </text>
-          <rect x={110} y={-5} width={10} height={10} rx={2}
-            fill={COLOR_LAND} fillOpacity={0.8} />
-          <text x={124} y={3} fontSize={8} fontFamily="var(--mono)"
-            dominantBaseline="middle" fill="var(--text-muted)">
-            above sea level
-          </text>
-        </g>
 
       </svg>
-
-      {/* Tooltip */}
-      {tooltip && (
-        <div style={{
-          position: "absolute",
-          left: tooltip.x > width * 0.6 ? tooltip.x - 155 : tooltip.x + 12,
-          top: tooltip.y - 12,
-          background: "var(--bg)",
-          border: "1px solid var(--border)",
-          borderRadius: 4, padding: "6px 10px",
-          fontFamily: "var(--mono)", fontSize: 11,
-          color: "var(--text)", pointerEvents: "none",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-          zIndex: 50, whiteSpace: "nowrap",
-        }}>
-          <div style={{ fontWeight: 600, marginBottom: 4 }}>{tooltip.label}</div>
-          <div style={{ color: "var(--text-muted)" }}>{tooltip.pct}% of land area</div>
-        </div>
-      )}
     </div>
   );
 }

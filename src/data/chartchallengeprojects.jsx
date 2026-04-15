@@ -9,6 +9,7 @@ import RoseChart from "../components/RoseChart";
 import WealthMap from "../components/WealthMap";
 import MelkwegChart from "../components/MelkwegUnitChart";
 import ElevationChart from "../components/ElevationHistogramChart";
+import SankeyChart from "../components/SankeyChart";
 
 export const chartchallengeprojects = [
 {
@@ -130,15 +131,15 @@ description:
   tags: [],
   chart: <MelkwegChart />,
 },
-/*
+
 {
   id: 11,
   category: "Distribution",
   topic: "Physical",
-  title: "",
+  title: "Built below the sea",
   description:
-    "",
-  source: "",
+    "26% of the Netherlands sits below sea level. Without dikes, pumps and centuries of water engineering, a quarter of the country — including Amsterdam and Schiphol airport — would be permanently underwater. Another 39.5% sits between 0m and 5m above sea level, protected by dike rings but vulnerable to breach or river surge. Only 34.5% of Dutch land drains naturally. Each rectangle's area is proportional to its land surface — height reflects the elevation range, width the share of national territory.",
+  source: "AHN4 (Actueel Hoogtebestand Nederland) 2020–2022, CBS Statistics Netherlands",
   tags: [],
   chart: <ElevationChart />,
 },
@@ -146,13 +147,13 @@ description:
 {
   id: 12,
   category: "Distribution",
-  topic: "Theme Day",
-  title: "FlowingData",
+  topic: "Theme Day - Flowing Data",
+  title: "How energy comes and goes",
   description:
-    "",
-  source: "",
+    "In 2023 the Netherlands consumed nearly 2,929 PJ of primary energy. Natural gas and oil together account for almost 80% of all supply — the two dominant flows on the left. Renewables (wind, solar, biomass) are visible but thin by comparison. On the right, industry absorbs the most at 1,061 PJ, followed by transport — almost entirely oil. Each band's thickness is proportional to the energy flow in petajoules. The fossil threads still dwarf the renewable ones. The transition is underway, but in absolute terms it has barely begun.",
+  source: "CBS Statistics Netherlands, EBN Energy Infographic 2023, IEA Netherlands Energy Policy Review 2024. Values in PJ (petajoules), primary energy supply.",
   tags: [],
-  chart: "",
+  chart: <SankeyChart />,
 },
-*/
+
 ];
