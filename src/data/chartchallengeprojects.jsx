@@ -10,6 +10,7 @@ import WealthMap from "../components/WealthMap";
 import MelkwegChart from "../components/MelkwegUnitChart";
 import ElevationChart from "../components/ElevationHistogramChart";
 import SankeyChart from "../components/SankeyChart";
+import EcosystemChart from "../components/EcosystemChart";
 
 export const chartchallengeprojects = [
 {
@@ -154,6 +155,18 @@ description:
   source: "CBS Statistics Netherlands, EBN Energy Infographic 2023, IEA Netherlands Energy Policy Review 2024. Values in PJ (petajoules), primary energy supply.",
   tags: [],
   chart: <SankeyChart />,
+},
+
+{
+  id: 13,
+  category: "Relationships",
+  topic: "Ecosystems",
+  title: "The chart that made itself",
+  description:
+    "A chart that tracks its own environmental cost of creation. Each dot is one iteration between me and Claude — position on the X axis shows cumulative CO₂ emitted, position on the Y axis my satisfaction with the result (1–10), and dot size the tokens used. The dashed path traces the back-and-forth: a shaky start at iteration 1, a breakthrough at iterations 2–3, then a slow climb through build, review and polish. After 7 iterations: ~10,600 tokens, 0.011 kWh of electricity, 10.6 ml of data centre cooling water, and 4.24g of CO₂ — roughly the emissions of 12 minutes of LED TV, or a single email with a heavy attachment crossing the world. Small numbers, but real ones. Every chart in this challenge has a footprint. This one just happens to show it.",
+  source: "Self-logged iterations. Environmental estimates: ~0.001 kWh / 1.0 ml water / 0.4g CO₂ per 1,000 tokens (Claude Sonnet 4, EU grid average). Figures are approximations based on published ranges for LLM inference — actual values vary by data centre location, cooling efficiency, and grid mix.",
+  tags: [],
+  chart: <EcosystemChart />,
 },
 
 ];
