@@ -11,6 +11,7 @@ import MelkwegChart from "../components/MelkwegUnitChart";
 import ElevationChart from "../components/ElevationHistogramChart";
 import SankeyChart from "../components/SankeyChart";
 import EcosystemChart from "../components/EcosystemChart";
+import TradeChart from "../components/TradeChart";
 
 export const chartchallengeprojects = [
 {
@@ -167,6 +168,18 @@ description:
   source: "Self-logged iterations. Environmental estimates: ~0.001 kWh / 1.0 ml water / 0.4g CO₂ per 1,000 tokens (Claude Sonnet 4, EU grid average). Figures are approximations based on published ranges for LLM inference — actual values vary by data centre location, cooling efficiency, and grid mix.",
   tags: [],
   chart: <EcosystemChart />,
+},
+
+{
+  id: 14,
+  category: "Relationships",
+  topic: "Trade",
+  title: "The Dutch guide to eating healthy",
+  description:
+    "The 2026 Schijf van Vijf recommends 12 food categories. Each arc in this rose chart represents one category, sized by recommended weekly intake of a 33 years old woman. The further it reaches from the centre, the more of it you should eat. But how much of it does the Netherlands actually produce? Hover any arc to see the split between NL domestic production (orange) and imports. The Netherlands is a global agricultural giant — yet the foods the new guidelines push hardest, like legumes, nuts and fish, are overwhelmingly imported. Dairy and drinks are shown separately: both are high-volume and would distort the chart.",
+  source: "Voedingscentrum Schijf van Vijf 2026 (voedingscentrum.nl). Trade origin estimates: CBS StatLine 2023, Wageningen University & Research, VLAM agricultural statistics, Nature Food (Stehl et al. 2025).",
+  tags: [],
+  chart: <TradeChart />,
 },
 
 ];
