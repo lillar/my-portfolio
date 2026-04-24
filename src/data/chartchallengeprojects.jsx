@@ -12,6 +12,7 @@ import ElevationChart from "../components/ElevationHistogramChart";
 import SankeyChart from "../components/SankeyChart";
 import EcosystemChart from "../components/EcosystemChart";
 import TradeChart from "../components/TradeChart";
+import AccidentChart from "../components/AccidentChart";
 
 export const chartchallengeprojects = [
 {
@@ -180,6 +181,18 @@ description:
   source: "Voedingscentrum Schijf van Vijf 2026 (voedingscentrum.nl). Trade origin estimates: CBS StatLine 2023, Wageningen University & Research, VLAM agricultural statistics, Nature Food (Stehl et al. 2025).",
   tags: [],
   chart: <TradeChart />,
+},
+
+{
+  id: 15,
+  category: "Relationships",
+  topic: "Correlation & Causation (16)",
+  title: "Elderly cyclists - dangerous or just more vulnerable?",
+  description:
+    "75% of cyclist fatalities in the NL are aged 60 or over. But is that because elderly cyclists cause accidents — or because they are more vulnerable in them? Older cyclists ride more than you'd expect: 65–74 year-olds cover as many km per week as most working adults. High accident counts partly reflect high exposure. But even corrected for km ridden, the risk index for 75+ is 6× that of young cyclists. SWOV is clear: crash data cannot identify who caused an accident. Physical fragility and rapid e-bike adoption are the real story — not recklessness.",
+  source: "SWOV Institute for Road Safety Research: Fact sheets on Cyclists, Older Road Users, and Serious Road Injuries (2022–2023). CBS ODiN Dutch National Travel Survey 2022 — cycling km per age group. Schepers et al. (2018) Characteristics of older cyclists, ScienceDirect.",
+  tags: [],
+  chart: <AccidentChart />,
 },
 
 ];
