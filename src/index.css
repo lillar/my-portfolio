@@ -176,7 +176,7 @@ nav {
 
 
 .project-description {
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.75;
   color: var(--text-muted);
   margin: 0 0 24px;
@@ -184,7 +184,7 @@ nav {
 
 .project-source {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 10px;
   color: var(--text-muted);
   margin: 0 0 24px;
 }

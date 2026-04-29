@@ -13,10 +13,12 @@ import SankeyChart from "../components/SankeyChart";
 import EcosystemChart from "../components/EcosystemChart";
 import TradeChart from "../components/TradeChart";
 import AccidentChart from "../components/AccidentChart";
+import HousingChart from "../components/HousingChart";
 
 export const chartchallengeprojects = [
 {
   id: 1,
+  day: 1,
   category: "Comparison",
   topic: "Part-to-Whole",
   title: "5 continents, unevenly sliced",
@@ -29,6 +31,7 @@ export const chartchallengeprojects = [
 
 {
   id: 2,
+  day: 2,
   category: "Comparison",
   topic: "Pictogram",
   title: "You don't have to be the biggest to have the most trees",
@@ -41,6 +44,7 @@ export const chartchallengeprojects = [
 
 {
   id: 3,
+  day: 3,
   category: "Comparison",
   topic: "Mosaic",
   title: "Tuning in — how long does the world watch TV?",
@@ -53,6 +57,7 @@ export const chartchallengeprojects = [
 
 {
   id: 4,
+  day: 4,
   category: "Comparison",
   topic: "Slope",
   title: "What minimum wage actually buys",
@@ -65,6 +70,7 @@ export const chartchallengeprojects = [
 
 {
   id: 5,
+  day: 5,
   category: "Comparison",
   topic: "Experimental",
   title: "A century of warming",
@@ -77,6 +83,7 @@ export const chartchallengeprojects = [
 
 {
   id: 6,
+  day: 6,
   category: "Comparison",
   topic: "Data Day",
   title: "Reporters Without Borders",
@@ -89,11 +96,12 @@ export const chartchallengeprojects = [
 
 {
   id: 7,
+  day: 7,
   category: "Distribution",
   topic: "Multiscale",
   title: "Never grow apart!",
-description:
-  "Since 1990, the EU has grown its economy by nearly 70% while cutting greenhouse gas emissions by 36%. Each bar tells a year's story: teal rises when GDP grows, magenta rises when emissions drop. The best years are when both bars go up simultaneously — more economy, less carbon. 2009 and 2020 are the exceptions: both crash together, not from clean policy, but because economies simply stopped.",
+  description:
+    "Since 1990, the EU has grown its economy by nearly 70% while cutting greenhouse gas emissions by 36%. Each bar tells a year's story: teal rises when GDP grows, magenta rises when emissions drop. The best years are when both bars go up simultaneously — more economy, less carbon. 2009 and 2020 are the exceptions: both crash together, not from clean policy, but because economies simply stopped.",
   source: "World Bank (GDP growth), European Environment Agency (GHG emissions), 1995–2023",
   tags: [],
   chart: <DivergingBarChart />,
@@ -101,6 +109,7 @@ description:
 
 {
   id: 8,
+  day: 8,
   category: "Distribution",
   topic: "Circular",
   title: "When Europe switches on",
@@ -113,6 +122,7 @@ description:
 
 {
   id: 9,
+  day: 9,
   category: "Distribution",
   topic: "Wealth",
   title: "What the average hides",
@@ -125,6 +135,7 @@ description:
 
 {
   id: 10,
+  day: 10,
   category: "Distribution",
   topic: "Pop Culture",
   title: "A night at the ... Melkweg",
@@ -137,6 +148,7 @@ description:
 
 {
   id: 11,
+  day: 11,
   category: "Distribution",
   topic: "Physical",
   title: "Built below the sea",
@@ -149,6 +161,7 @@ description:
 
 {
   id: 12,
+  day: 12,
   category: "Distribution",
   topic: "Theme Day - Flowing Data",
   title: "How energy comes and goes",
@@ -161,6 +174,7 @@ description:
 
 {
   id: 13,
+  day: 13,
   category: "Relationships",
   topic: "Ecosystems",
   title: "The chart that made itself",
@@ -173,6 +187,7 @@ description:
 
 {
   id: 14,
+  day: 14,
   category: "Relationships",
   topic: "Trade",
   title: "The Dutch guide to eating healthy",
@@ -185,14 +200,29 @@ description:
 
 {
   id: 15,
+  day: 15,
+  dayEnd: 16,
   category: "Relationships",
-  topic: "Correlation & Causation (16)",
+  topic: "Correlation & Causation",
   title: "Elderly cyclists - dangerous or just more vulnerable?",
   description:
     "75% of cyclist fatalities in the NL are aged 60 or over. But is that because elderly cyclists cause accidents — or because they are more vulnerable in them? Older cyclists ride more than you'd expect: 65–74 year-olds cover as many km per week as most working adults. High accident counts partly reflect high exposure. But even corrected for km ridden, the risk index for 75+ is 6× that of young cyclists. SWOV is clear: crash data cannot identify who caused an accident. Physical fragility and rapid e-bike adoption are the real story — not recklessness.",
   source: "SWOV Institute for Road Safety Research: Fact sheets on Cyclists, Older Road Users, and Serious Road Injuries (2022–2023). CBS ODiN Dutch National Travel Survey 2022 — cycling km per age group. Schepers et al. (2018) Characteristics of older cyclists, ScienceDirect.",
   tags: [],
   chart: <AccidentChart />,
+},
+
+{
+  id: 17,
+  day: 17,
+  category: "Relationships",
+  topic: "Remake",
+  title: "Where can you still afford a home?",
+  description:
+    "Inspired by John Burn-Murdoch's FT chart on UK and US housing affordability, this remake tracks the share of major housing markets in four countries falling into each affordability tier — from affordable (median house price below 3× median income) to impossibly unaffordable (9× or more). In 2004, nearly half of US markets were affordable. By 2024, none were. Australia has had no affordable markets since 2006. Canada collapsed after 2015. Only the UK shows modest improvement after 2022 — driven by rising interest rates cooling prices. The pandemic was the turning point everywhere: prices surged while incomes stagnated, pushing millions of households out of reach of homeownership.",
+  source: "Demographia International Housing Affordability Survey, 21st edition (2005–2025). Annual data covers Q3 of each year. Median multiple = median house price ÷ median household income. Markets are major metropolitan areas. Coverage expanded from 46 to 56 US markets and 15 to 23 UK markets in 2023.",
+  tags: [],
+  chart: <HousingChart />,
 },
 
 ];

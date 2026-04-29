@@ -25,7 +25,10 @@ export default function ChartChallenge() {
             <div className="project-body">
               <div className="project-text">
                 <p className="project-index">
-                  {String(i + 1).padStart(2, "0")} | {project.category.toUpperCase()} | {project.topic.toUpperCase()}
+                  {project.dayEnd
+                    ? `${String(project.day).padStart(2, "0")}–${String(project.dayEnd).padStart(2, "0")}`
+                    : String(project.day).padStart(2, "0")
+                  } | {project.category.toUpperCase()} | {project.topic.toUpperCase()}
                 </p>
                 <h2
                   className="project-title"
