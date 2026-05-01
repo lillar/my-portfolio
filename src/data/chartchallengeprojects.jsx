@@ -15,6 +15,7 @@ import TradeChart from "../components/TradeChart";
 import AccidentChart from "../components/AccidentChart";
 import HousingChart from "../components/HousingChart";
 import ObesityChart from "../components/ObesityChart";
+import WorkingHoursChart from "../components/WorkinghoursChart";
 
 export const chartchallengeprojects = [
 {
@@ -237,5 +238,18 @@ export const chartchallengeprojects = [
   source: "UNICEF Global Database on School-Age Children and Adolescents' Nutrition (SACA), August 2025. Obesity defined as BMI-for-age > +2 standard deviations above the WHO median (crude estimate). Data covers EU27 member states.",
   tags: [],
   chart: <ObesityChart />,
+},
+
+{
+  id: 19,
+  day: 19,
+  category: "Timeseries",
+  topic: "Evolution",
+  title: "Shrinking work-week in the NL",
+  description:
+    "In 1870, a Dutch worker put in roughly 3,080 hours a year — about 60 hours every week, with barely four days off for holidays. By 2023, that figure had fallen to 1,449 hours: less than half. This line chart traces that 153-year decline, annotated with the events that drove it. The 1919 Arbeidswet capped the working week at 48 hours for the first time. The Great Depression introduced work-sharing to spread employment. Post-war reconstruction briefly reversed the trend. The 1982 Wassenaar Accord — a landmark deal between unions and employers — traded wage restraint for shorter hours, laying the foundation for the Netherlands becoming the part-time capital of the world. Today the Dutch work the fewest hours per year of any OECD country.",
+  source: "Huberman & Minns (2007), 'The times they are not changin': Days and hours of work in Old and New Worlds, 1870–2000', Explorations in Economic History. Extended 1950–2023 with Penn World Table v11.0 (indicator: avh), via Our World in Data.",
+  tags: [],
+  chart: <WorkingHoursChart />,
 },
 ];
