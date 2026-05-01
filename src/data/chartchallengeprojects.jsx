@@ -16,6 +16,7 @@ import AccidentChart from "../components/AccidentChart";
 import HousingChart from "../components/HousingChart";
 import ObesityChart from "../components/ObesityChart";
 import WorkingHoursChart from "../components/WorkinghoursChart";
+import PlasticChart from "../components/plasticChart";
 
 export const chartchallengeprojects = [
 {
@@ -251,5 +252,18 @@ export const chartchallengeprojects = [
   source: "Huberman & Minns (2007), 'The times they are not changin': Days and hours of work in Old and New Worlds, 1870–2000', Explorations in Economic History. Extended 1950–2023 with Penn World Table v11.0 (indicator: avh), via Our World in Data.",
   tags: [],
   chart: <WorkingHoursChart />,
+},
+
+{
+  id: 20,
+  day: 20,
+  category: "Timeseries",
+  topic: "Global Change",
+  title: "The plastic planet",
+  description:
+    "Plastic was first synthesised in 1907, when Leo Baekeland created Bakelite — the first fully synthetic material. For decades it remained a curiosity. Then came the post-war boom: nylon, polyethylene, polystyrene, PVC. By the 1950s, plastic was everywhere — cheap, light, sterile, endlessly mouldable. The world produced just 2 million tonnes in 1950. It doubled by 1955, doubled again by 1960, and has never stopped growing. By 2020, annual production had reached 450 million tonnes — 225 times the 1950 level. Each bottle in this chart represents 10 million tonnes. Only 9% of all plastic ever made has been recycled. The rest is in landfill, incinerated, or loose in the environment.",
+  source: "Geyer, R., Jambeck, J.R. & Law, K.L. (2017). Production, use, and fate of all plastics ever made. Science Advances. OECD (2022), Global Plastics Outlook. PlasticsEurope Market Research Group (2024). Processed by Our World in Data.",
+  tags: [],
+  chart: <PlasticChart />,
 },
 ];
