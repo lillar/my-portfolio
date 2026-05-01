@@ -14,6 +14,7 @@ import EcosystemChart from "../components/EcosystemChart";
 import TradeChart from "../components/TradeChart";
 import AccidentChart from "../components/AccidentChart";
 import HousingChart from "../components/HousingChart";
+import ObesityChart from "../components/ObesityChart";
 
 export const chartchallengeprojects = [
 {
@@ -225,4 +226,16 @@ export const chartchallengeprojects = [
   chart: <HousingChart />,
 },
 
+{
+  id: 18,
+  day: 18,
+  category: "Relationships",
+  topic: "UNICEF Data Day",
+  title: "Obesity doubled in 2 decades",
+  description:
+    "Childhood obesity has risen across every EU country since 2000. This violin chart shows the distribution of obesity rates among children and adolescents across 27 EU member states, comparing 2000 and 2022 across three age groups. The widening and rightward shift of each violin tells the story: what was a high outlier in 2000 is now the norm. Children aged 10–14 are consistently most affected. Cyprus and Hungary sit at the top in both years; France and Denmark remain the lowest. Use ☰ to trace any country across all six violins.",
+  source: "UNICEF Global Database on School-Age Children and Adolescents' Nutrition (SACA), August 2025. Obesity defined as BMI-for-age > +2 standard deviations above the WHO median (crude estimate). Data covers EU27 member states.",
+  tags: [],
+  chart: <ObesityChart />,
+},
 ];
