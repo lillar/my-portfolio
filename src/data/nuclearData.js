@@ -1,0 +1,48 @@
+// Nuclear close calls — Wikipedia: https://en.wikipedia.org/wiki/Nuclear_close_calls
+// All 42 incidents, exact Wikipedia titles, ordered: intentional (yr asc) then unintentional (yr asc)
+// severity 1-10 estimated by author. famous=true: highlighted; false: background opacity
+
+export const incidents = [
+  // INTENTIONAL
+  { year: 1950, side: "US",    type: "intentional",   severity: 4,  famous: false, title: "Korean War" },
+  { year: 1954, side: "US",    type: "intentional",   severity: 4,  famous: false, title: "First Indochina War" },
+  { year: 1956, side: "US",    type: "intentional",   severity: 5,  famous: false, title: "Suez Crisis" },
+  { year: 1958, side: "US",    type: "intentional",   severity: 5,  famous: false, title: "Second Taiwan Strait Crisis" },
+  { year: 1962, side: "USSR",  type: "intentional",   severity: 8,  famous: true,  title: "Soviet nuclear weapons in Cuba" },
+  { year: 1962, side: "US",    type: "intentional",   severity: 6,  famous: false, title: "US false alarm at interceptor airbase - Cuban Crisis" },
+  { year: 1962, side: "USSR",  type: "intentional",   severity: 10, famous: true,  title: "Soviet averted launch of nuclear torpedo - Cuban Crisis" },
+  { year: 1962, side: "US",    type: "intentional",   severity: 7,  famous: false, title: "US loss of ICBM launch authority - Cuban Crisis" },
+  { year: 1962, side: "US",    type: "intentional",   severity: 7,  famous: false, title: "US scramble of interceptors - Cuban Crisis" },
+  { year: 1968, side: "US",    type: "intentional",   severity: 5,  famous: false, title: "Vietnam War" },
+  { year: 1969, side: "US",    type: "intentional",   severity: 5,  famous: false, title: "DPRK shootdown of US EWAC aircraft" },
+  { year: 1969, side: "USSR",  type: "intentional",   severity: 6,  famous: false, title: "Sino-Soviet conflict" },
+  { year: 1973, side: "OTHER", type: "intentional",   severity: 7,  famous: true,  title: "Yom Kippur War" },
+  { year: 1983, side: "US",    type: "intentional",   severity: 7,  famous: true,  title: "Able Archer 83 NATO exercise" },
+  { year: 1991, side: "US",    type: "intentional",   severity: 4,  famous: false, title: "Coalition nuclear weapons" },
+  { year: 1991, side: "OTHER", type: "intentional",   severity: 4,  famous: false, title: "Israeli nuclear weapons" },
+  { year: 2017, side: "US",    type: "intentional",   severity: 5,  famous: false, title: "North Korea crisis" },
+  { year: 2019, side: "OTHER", type: "intentional",   severity: 5,  famous: false, title: "India-Pakistan conflict" },
+  { year: 2022, side: "USSR",  type: "intentional",   severity: 6,  famous: true,  title: "Russian invasion of Ukraine" },
+  // UNINTENTIONAL
+  { year: 1957, side: "US",    type: "unintentional", severity: 2,  famous: false, title: "US accidental bomb drop in New Mexico" },
+  { year: 1958, side: "US",    type: "unintentional", severity: 2,  famous: false, title: "US accidental bomb drop in Savannah, Georgia" },
+  { year: 1960, side: "US",    type: "unintentional", severity: 4,  famous: false, title: "US false alarm from moonrise" },
+  { year: 1961, side: "US",    type: "unintentional", severity: 5,  famous: false, title: "US strategic bomber crash in North Carolina" },
+  { year: 1961, side: "US",    type: "unintentional", severity: 3,  famous: false, title: "US strategic bomber crash in California" },
+  { year: 1961, side: "US",    type: "unintentional", severity: 4,  famous: false, title: "US false alarm from communications failure" },
+  { year: 1962, side: "US",    type: "unintentional", severity: 6,  famous: false, title: "US mistaken order during Cuban Missile Crisis" },
+  { year: 1964, side: "US",    type: "unintentional", severity: 2,  famous: false, title: "US strategic bomber crash in Maryland" },
+  { year: 1965, side: "US",    type: "unintentional", severity: 3,  famous: false, title: "US false alarm from blackout computer errors" },
+  { year: 1965, side: "US",    type: "unintentional", severity: 2,  famous: false, title: "US attack aircraft falling off carrier" },
+  { year: 1966, side: "US",    type: "unintentional", severity: 3,  famous: false, title: "US strategic bomber crash in Spain" },
+  { year: 1966, side: "OTHER", type: "unintentional", severity: 4,  famous: false, title: "French false alarm from weather (likely)" },
+  { year: 1967, side: "US",    type: "unintentional", severity: 4,  famous: false, title: "US false alarm from weather" },
+  { year: 1968, side: "US",    type: "unintentional", severity: 2,  famous: false, title: "US strategic bomber crash in Greenland" },
+  { year: 1979, side: "US",    type: "unintentional", severity: 6,  famous: true,  title: "US false alarm from computer training scenario" },
+  { year: 1980, side: "US",    type: "unintentional", severity: 5,  famous: false, title: "US false alarm from Soviet missile exercise" },
+  { year: 1980, side: "US",    type: "unintentional", severity: 3,  famous: false, title: "Explosion at US missile silo" },
+  { year: 1983, side: "USSR",  type: "unintentional", severity: 9,  famous: true,  title: "Soviet false alarm from weather (likely)" },
+  { year: 1991, side: "US",    type: "unintentional", severity: 2,  famous: false, title: "Tornado at US strategic bomber airbase" },
+  { year: 1995, side: "USSR",  type: "unintentional", severity: 7,  famous: true,  title: "Russian false alarm from Norwegian research rocket" },
+  { year: 2007, side: "US",    type: "unintentional", severity: 3,  famous: false, title: "Improper transport of US nuclear weapons" },
+];

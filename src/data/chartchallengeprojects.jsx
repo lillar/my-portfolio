@@ -17,6 +17,7 @@ import HousingChart from "../components/HousingChart";
 import ObesityChart from "../components/ObesityChart";
 import WorkingHoursChart from "../components/WorkinghoursChart";
 import PlasticChart from "../components/plasticChart";
+import NuclearChart from "../components/NuclearChart";
 
 export const chartchallengeprojects = [
 {
@@ -265,5 +266,18 @@ export const chartchallengeprojects = [
   source: "Geyer, R., Jambeck, J.R. & Law, K.L. (2017). Production, use, and fate of all plastics ever made. Science Advances. OECD (2022), Global Plastics Outlook. PlasticsEurope Market Research Group (2024). Processed by Our World in Data.",
   tags: [],
   chart: <PlasticChart />,
+},
+
+{
+  id: 21,
+  day: 21,
+  category: "Timeseries",
+  topic: "Historical",
+  title: "Nuclear close calls",
+  description:
+    "Since the first nuclear test in 1945, the world has come terrifyingly close to nuclear war more times than most people know. This chart maps every documented close call from Wikipedia — intentional incidents (political decisions, military escalations, deliberate deployments) and unintentional ones (false alarms, equipment failures, human error). Stem height reflects estimated severity. The most famous incidents glow at full opacity; the lesser-known ones fade into the background — a reminder that the disasters we avoided were not always the ones we remember.",
+  source: "Wikipedia: 'Nuclear close calls' (https://en.wikipedia.org/wiki/Nuclear_close_calls). Severity scores (1–10) estimated with Claude based on proximity to actual launch, number of warheads at risk, and whether a single individual's decision was the only barrier.",
+  tags: [],
+  chart: <NuclearChart />,
 },
 ];
