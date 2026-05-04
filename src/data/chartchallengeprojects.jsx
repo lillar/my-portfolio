@@ -18,6 +18,7 @@ import ObesityChart from "../components/ObesityChart";
 import WorkingHoursChart from "../components/WorkinghoursChart";
 import PlasticChart from "../components/plasticChart";
 import NuclearChart from "../components/NuclearChart";
+import MusicChart from "../components/MusicChart";
 
 export const chartchallengeprojects = [
 {
@@ -279,5 +280,18 @@ export const chartchallengeprojects = [
   source: "Wikipedia: 'Nuclear close calls' (https://en.wikipedia.org/wiki/Nuclear_close_calls). Severity scores (1–10) estimated with Claude based on proximity to actual launch, number of warheads at risk, and whether a single individual's decision was the only barrier.",
   tags: [],
   chart: <NuclearChart />,
+},
+
+{
+  id: 22,
+  day: 22,
+  category: "Timeseries",
+  topic: "New Tool",
+  title: "New format, old formats — fifty years of music revenue",
+  description:
+    "Every generation gets its format. Vinyl filled living rooms, 8-track loaded into dashboards, cassette rode in pockets and Walkmans. Then the CD arrived and swept everything aside for twenty years — until the internet didn't just change the format, which dissolved it entirely. Digital downloads briefly felt like the future. Streaming made them feel like the past. This chart traces every rise and fall in US recorded music revenue from 1973 to 2023 — six formats, half a century, one clear winner per era.",
+  source: "RIAA via AEI Animated Chart series, 1973–2023",
+  tags: [],
+  chart: <MusicChart />,
 },
 ];
