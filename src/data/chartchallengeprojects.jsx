@@ -21,6 +21,7 @@ import NuclearChart from "../components/NuclearChart";
 import MusicChart from "../components/MusicChart";
 import PrecipitationChart from "../components/PrecipitationChart";
 import WealthDeathChart from "../components/WealthDeathChart";
+import ExoplanetChart from "../components/ExoplanetChart";
 
 export const chartchallengeprojects = [
 {
@@ -321,5 +322,19 @@ export const chartchallengeprojects = [
   source: "WHO Global Health Estimates 2000 and 2021 (leaf-level causes, all ages) · World Bank GDP per capita 2000 and 2021 (current USD)",
   tags: [],
   chart: <WealthDeathChart />,
+},
+
+{
+  id: 25,
+  day: 25,
+  category: "Uncertainties",
+  topic: "Space",
+  title: "Worlds known and suspected",
+  description:
+    "4,325 confirmed exoplanets and 4,383 TESS planet candidates — what we certainly know, and what we suspect. Earth sits at the center of the diagonal. Perpendicular distance from that line encodes how far each world is from us, stretching to 30,000 light-years on a square-root scale. Dot size scales with planetary radius. Gold dots are unnamed confirmed worlds; purple marks those with a known name. Gray dots are TESS candidates — statistically likely planets, awaiting confirmation.",
+  source: "NASA Exoplanet Archive — PSCompPars (confirmed exoplanets) & TOI table (TESS candidates), 2025",
+  tags: [],
+  chart: <ExoplanetChart />,
+  previewBg: "#0b0f1a",
 },
 ];

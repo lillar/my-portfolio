@@ -50,7 +50,10 @@ export default function ChartChallenge() {
                 </div>
               </div>
 
-              <div className="chart-challenge-preview">
+              <div
+                className="chart-challenge-preview"
+                style={project.previewBg ? { background: project.previewBg } : undefined}
+              >
                 {project.chart}
               </div>
             </div>
