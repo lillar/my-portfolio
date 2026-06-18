@@ -19,6 +19,8 @@ import WorkingHoursChart from "../components/WorkinghoursChart";
 import PlasticChart from "../components/plasticChart";
 import NuclearChart from "../components/NuclearChart";
 import MusicChart from "../components/MusicChart";
+import PrecipitationChart from "../components/PrecipitationChart";
+import WealthDeathChart from "../components/WealthDeathChart";
 
 export const chartchallengeprojects = [
 {
@@ -293,5 +295,31 @@ export const chartchallengeprojects = [
   source: "RIAA via AEI Animated Chart series, 1973–2023",
   tags: [],
   chart: <MusicChart />,
+},
+
+{
+  id: 23,
+  day: 23,
+  category: "Timeseries",
+  topic: "Seasons",
+  title: "The four seasons of Dutch rain",
+  description:
+    "The Netherlands doesn't really have a dry season — it rains in all four. But not equally. Summer carries the heaviest burden on average, driven not by drizzle but by intense convective storms that dump more in an afternoon than winter manages in a week. Autumn runs a close second, with totals that regularly push past 300mm and occasional outliers beyond 400. Winter is wide and unpredictable, swinging between droughts and deluges. Spring is the driest and most consistent — the closest thing the Dutch get to a reliable season. One hundred and eighteen years of rainfall from De Bilt, distilled into four curves.",
+  source: "Royal Netherlands Meteorological Institute (KNMI) · Station De Bilt (STN 260) · Monthly precipitation sums 1906–2024",
+  tags: [],
+  chart: <PrecipitationChart />,
+},
+
+{
+  id: 24,
+  day: 24,
+  category: "Timeseries",
+  topic: "Theme Day — SCMP",
+  title: "Wealth and what kills us",
+  description:
+    "The five wealthiest countries and the five poorest, arranged in a single circle. Each wedge is a country — ordered clockwise by GDP per capita — and each ring adds the next leading cause of death, innermost to outermost. The contrast is immediate: in Luxembourg, Ireland, Switzerland, Norway and Singapore, the top killers are heart disease, dementia, lung cancer and COPD — diseases of long life. Across the separator, in Mozambique, the Central African Republic, Madagascar, Afghanistan and Burundi, they are malaria, HIV/AIDS, tuberculosis, diarrhoeal disease and preterm birth complications. Same structure, entirely different worlds. Inspired by the 'Dead reckoning' graphic by the South China Morning Post.",
+  source: "WHO Global Health Estimates 2021 (leaf-level causes, all ages) · World Bank GDP per capita 2021 (current USD)",
+  tags: [],
+  chart: <WealthDeathChart />,
 },
 ];
