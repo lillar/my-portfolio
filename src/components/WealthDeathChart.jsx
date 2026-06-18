@@ -13,22 +13,44 @@ const LABEL_R = OUTER_R + 10;                // 203
 const N        = 11;
 const LEGEND_CI = 5;
 const GAP      = 0.018;
+const SUB_GAP  = 0.012; // gap between 2000 and 2021 sub-columns within each wedge
+const YEAR_R   = LABEL_R + 9;
 
 // ── Country data ──────────────────────────────────────────────────────────────
 // ci = the actual angular slot (0–4 rich, 5 = legend, 6–10 poor)
 // Source: WHO GHE 2021 "All ages", leaf-level causes; World Bank GDP/cap 2021
 const COUNTRIES = [
-  { ci: 0,  id: "lux", label: "LUX", causes: ["Ischaemic heart disease","COVID-19","Alzheimer disease and other dementias","Other circulatory diseases","Chronic obstructive pulmonary disease"] },
-  { ci: 1,  id: "irl", label: "IRL", causes: ["Ischaemic heart disease","COVID-19","Alzheimer disease and other dementias","Chronic obstructive pulmonary disease","Trachea, bronchus, lung cancers"] },
-  { ci: 2,  id: "che", label: "CHE", causes: ["Ischaemic heart disease","Alzheimer disease and other dementias","COVID-19","Trachea, bronchus, lung cancers","Other circulatory diseases"] },
-  { ci: 3,  id: "nor", label: "NOR", causes: ["Ischaemic heart disease","Alzheimer disease and other dementias","Chronic obstructive pulmonary disease","Trachea, bronchus, lung cancers","Other circulatory diseases"] },
-  { ci: 4,  id: "sgp", label: "SGP", causes: ["Ischaemic heart disease","Lower respiratory infections","Trachea, bronchus, lung cancers","Colon and rectum cancers","Hypertensive heart disease"] },
+  { ci: 0,  id: "lux", label: "LUX",
+    causes2000: ["Ischaemic heart disease","Ischaemic stroke","Trachea, bronchus, lung cancers","Chronic obstructive pulmonary disease","Other circulatory diseases"],
+    causes:     ["Ischaemic heart disease","COVID-19","Alzheimer disease and other dementias","Other circulatory diseases","Chronic obstructive pulmonary disease"] },
+  { ci: 1,  id: "irl", label: "IRL",
+    causes2000: ["Ischaemic heart disease","Lower respiratory infections","Chronic obstructive pulmonary disease","Ischaemic stroke","Other circulatory diseases"],
+    causes:     ["Ischaemic heart disease","COVID-19","Alzheimer disease and other dementias","Chronic obstructive pulmonary disease","Trachea, bronchus, lung cancers"] },
+  { ci: 2,  id: "che", label: "CHE",
+    causes2000: ["Ischaemic heart disease","Ischaemic stroke","Trachea, bronchus, lung cancers","Chronic obstructive pulmonary disease","Alzheimer disease and other dementias"],
+    causes:     ["Ischaemic heart disease","Alzheimer disease and other dementias","COVID-19","Trachea, bronchus, lung cancers","Other circulatory diseases"] },
+  { ci: 3,  id: "nor", label: "NOR",
+    causes2000: ["Ischaemic heart disease","Ischaemic stroke","Lower respiratory infections","Other circulatory diseases","Chronic obstructive pulmonary disease"],
+    causes:     ["Ischaemic heart disease","Alzheimer disease and other dementias","Chronic obstructive pulmonary disease","Trachea, bronchus, lung cancers","Other circulatory diseases"] },
+  { ci: 4,  id: "sgp", label: "SGP",
+    causes2000: ["Ischaemic heart disease","Lower respiratory infections","Ischaemic stroke","Trachea, bronchus, lung cancers","Colon and rectum cancers"],
+    causes:     ["Ischaemic heart disease","Lower respiratory infections","Trachea, bronchus, lung cancers","Colon and rectum cancers","Hypertensive heart disease"] },
   // ci: 5 → legend wedge (rendered separately)
-  { ci: 6,  id: "moz", label: "MOZ", causes: ["HIV/AIDS","COVID-19","Malaria","Haemorrhagic stroke","Preterm birth complications"] },
-  { ci: 7,  id: "caf", label: "CAF", causes: ["Tuberculosis","Lower respiratory infections","Malaria","HIV/AIDS","Diarrhoeal diseases"] },
-  { ci: 8,  id: "mdg", label: "MDG", causes: ["Lower respiratory infections","Haemorrhagic stroke","Diarrhoeal diseases","Tuberculosis","Malaria"] },
-  { ci: 9,  id: "afg", label: "AFG", causes: ["Collective violence and legal intervention","Ischaemic heart disease","COVID-19","Preterm birth complications","Measles"] },
-  { ci: 10, id: "bdi", label: "BDI", causes: ["Lower respiratory infections","Malaria","Diarrhoeal diseases","Preterm birth complications","Haemorrhagic stroke"] },
+  { ci: 6,  id: "moz", label: "MOZ",
+    causes2000: ["HIV/AIDS","Malaria","Tuberculosis","Preterm birth complications","Lower respiratory infections"],
+    causes:     ["HIV/AIDS","COVID-19","Malaria","Haemorrhagic stroke","Preterm birth complications"] },
+  { ci: 7,  id: "caf", label: "CAF",
+    causes2000: ["HIV/AIDS","Tuberculosis","Lower respiratory infections","Diarrhoeal diseases","Malaria"],
+    causes:     ["Tuberculosis","Lower respiratory infections","Malaria","HIV/AIDS","Diarrhoeal diseases"] },
+  { ci: 8,  id: "mdg", label: "MDG",
+    causes2000: ["Lower respiratory infections","Diarrhoeal diseases","Tuberculosis","Preterm birth complications","Haemorrhagic stroke"],
+    causes:     ["Lower respiratory infections","Haemorrhagic stroke","Diarrhoeal diseases","Tuberculosis","Malaria"] },
+  { ci: 9,  id: "afg", label: "AFG",
+    causes2000: ["Measles","Ischaemic heart disease","Preterm birth complications","Lower respiratory infections","Tuberculosis"],
+    causes:     ["Collective violence and legal intervention","Ischaemic heart disease","COVID-19","Preterm birth complications","Measles"] },
+  { ci: 10, id: "bdi", label: "BDI",
+    causes2000: ["Collective violence and legal intervention","HIV/AIDS","Malaria","Lower respiratory infections","Tuberculosis"],
+    causes:     ["Lower respiratory infections","Malaria","Diarrhoeal diseases","Preterm birth complications","Haemorrhagic stroke"] },
 ];
 
 // Legend wedge ring labels (innermost → outermost)
@@ -53,6 +75,7 @@ const ABBR = {
   "Measles":                                        "MSL",
   "HIV/AIDS":                                       "HIV",
   "Tuberculosis":                                   "TB",
+  "Ischaemic stroke":                               "I-STR",
   "Diarrhoeal diseases":                            "DIAR",
   "Colon and rectum cancers":                       "CRC",
   "Hypertensive heart disease":                     "HHD",
@@ -100,25 +123,27 @@ function buildCells() {
   const cells = [];
   COUNTRIES.forEach((country) => {
     const { sa, ea, mid } = segAngles(country.ci);
-    country.causes.forEach((cause, ki) => {
-      const ir = INNER_R + ki * RING_W;
-      const or = INNER_R + (ki + 1) * RING_W;
-      const midR = INNER_R + (ki + 0.5) * RING_W;
-cells.push({
-  key: `${country.id}-${ki}`,
-  arcD: arcGen({
-    innerRadius: ir,
-    outerRadius: or,
-    startAngle: sa,
-    endAngle: ea
-  }),
-  fill: CAUSE_COLORS[cause] ?? DEFAULT_FILL,
-  textFill: CAUSE_COLORS[cause] ? "#ffffff" : "#444",
-  abbr: ABBR[cause] ?? cause.slice(0, 5).toUpperCase(),
-  tx: midR * Math.sin(mid),
-  ty: -midR * Math.cos(mid),
-  rot: textRotation(mid),
-});
+    const subCols = [
+      { era: "2000", causes: country.causes2000, subSA: sa,                subEA: mid - SUB_GAP / 2 },
+      { era: "2021", causes: country.causes,     subSA: mid + SUB_GAP / 2, subEA: ea               },
+    ];
+    subCols.forEach(({ era, causes, subSA, subEA }) => {
+      const subMid = (subSA + subEA) / 2;
+      causes.forEach((cause, ki) => {
+        const ir = INNER_R + ki * RING_W;
+        const or = INNER_R + (ki + 1) * RING_W;
+        const midR = INNER_R + (ki + 0.5) * RING_W;
+        cells.push({
+          key: `${country.id}-${era}-${ki}`,
+          arcD: arcGen({ innerRadius: ir, outerRadius: or, startAngle: subSA, endAngle: subEA }),
+          fill: CAUSE_COLORS[cause] ?? (era === "2000" ? "#f3f3f3" : DEFAULT_FILL),
+          textFill: CAUSE_COLORS[cause] ? "#ffffff" : "#444",
+          abbr: ABBR[cause] ?? cause.slice(0, 5).toUpperCase(),
+          tx: midR * Math.sin(subMid),
+          ty: -midR * Math.cos(subMid),
+          rot: textRotation(subMid),
+        });
+      });
     });
   });
   return cells;
@@ -154,13 +179,24 @@ export default function WealthDeathChart() {
   const legendCells = useMemo(() => buildLegendCells(), []);
 
   const countryLabels = COUNTRIES.map((c) => {
-    const mid = (c.ci + 0.5) / N * 2 * Math.PI;
-
+    const { sa, ea, mid } = segAngles(c.ci);
+    const leftSubMid  = (sa + mid - SUB_GAP / 2) / 2;
+    const rightSubMid = (mid + SUB_GAP / 2 + ea) / 2;
     return {
       ...c,
-      x: CX + LABEL_R * Math.sin(mid),
-      y: CY - LABEL_R * Math.cos(mid),
-      rot: textRotation(mid)
+      x: CX + YEAR_R * Math.sin(mid),
+      y: CY - YEAR_R * Math.cos(mid),
+      rot: textRotation(mid),
+      year2000: {
+        x: CX + LABEL_R * Math.sin(leftSubMid),
+        y: CY - LABEL_R * Math.cos(leftSubMid),
+        rot: textRotation(leftSubMid),
+      },
+      year2021: {
+        x: CX + LABEL_R * Math.sin(rightSubMid),
+        y: CY - LABEL_R * Math.cos(rightSubMid),
+        rot: textRotation(rightSubMid),
+      },
     };
   });
 
@@ -233,22 +269,45 @@ export default function WealthDeathChart() {
           stroke="var(--text, #111)" strokeWidth={1.2}
         />
 
-        {/* ── Country labels ── */}
+        {/* ── Sub-divider lines (2000 | 2021 split within each country wedge) ── */}
+        {COUNTRIES.map(c => {
+          const { mid } = segAngles(c.ci);
+          return (
+            <line key={`subdiv-${c.id}`}
+              x1={CX + INNER_R * Math.sin(mid)} y1={CY - INNER_R * Math.cos(mid)}
+              x2={CX + OUTER_R * Math.sin(mid)} y2={CY - OUTER_R * Math.cos(mid)}
+              stroke="#bbb" strokeWidth={0.6} strokeDasharray="2,1.5" />
+          );
+        })}
+
+        {/* ── Country labels + year sub-labels ── */}
         {countryLabels.map(c => (
-          <text
-            key={c.id}
-            x={c.x}
-            y={c.y}
-            textAnchor="middle"
-            dominantBaseline="middle"
-            fontSize={8}
-            fontWeight={700}
-            letterSpacing="1px"
-            fill="#222"
-            transform={`rotate(${c.rot}, ${c.x}, ${c.y})`}
-          >
-            {c.label}
-          </text>
+          <g key={c.id}>
+            <text
+              x={c.x} y={c.y}
+              textAnchor="middle" dominantBaseline="middle"
+              fontSize={8} fontWeight={700} letterSpacing="1px" fill="#222"
+              transform={`rotate(${c.rot}, ${c.x}, ${c.y})`}
+            >
+              {c.label}
+            </text>
+            <text
+              x={c.year2000.x} y={c.year2000.y}
+              textAnchor="middle" dominantBaseline="middle"
+              fontSize={4.5} fill="#888"
+              transform={`rotate(${c.year2000.rot}, ${c.year2000.x}, ${c.year2000.y})`}
+            >
+              2000
+            </text>
+            <text
+              x={c.year2021.x} y={c.year2021.y}
+              textAnchor="middle" dominantBaseline="middle"
+              fontSize={4.5} fill="#888"
+              transform={`rotate(${c.year2021.rot}, ${c.year2021.x}, ${c.year2021.y})`}
+            >
+              2021
+            </text>
+          </g>
         ))}
 
         {/* ── Centre hole ── */}
@@ -312,7 +371,17 @@ export default function WealthDeathChart() {
   fontSize={8}
   fill="#666"
 >
-  GDP per capita · 2021
+  GDP per capita
+</text>
+
+<text
+  x={CX}
+  y={CY + 67}
+  textAnchor="middle"
+  fontSize={8}
+  fill="#666"
+>
+  · Main causes in 2021 ·
 </text>
 
 {/* ── Colour legend ── */}
@@ -373,7 +442,7 @@ export default function WealthDeathChart() {
   <text
     key={`right-${cause}`}
     x={VW}
-    y={VH-75 + i * 12}
+    y={VH-85 + i * 12}
     fontSize={6.5}
     textAnchor="end"
   >

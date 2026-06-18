@@ -317,8 +317,8 @@ export const chartchallengeprojects = [
   topic: "Theme Day — SCMP",
   title: "Wealth and what kills us",
   description:
-    "The five wealthiest countries and the five poorest, arranged in a single circle. Each wedge is a country — ordered clockwise by GDP per capita — and each ring adds the next leading cause of death, innermost to outermost. The contrast is immediate: in Luxembourg, Ireland, Switzerland, Norway and Singapore, the top killers are heart disease, dementia, lung cancer and COPD — diseases of long life. Across the separator, in Mozambique, the Central African Republic, Madagascar, Afghanistan and Burundi, they are malaria, HIV/AIDS, tuberculosis, diarrhoeal disease and preterm birth complications. Same structure, entirely different worlds. Inspired by the 'Dead reckoning' graphic by the South China Morning Post.",
-  source: "WHO Global Health Estimates 2021 (leaf-level causes, all ages) · World Bank GDP per capita 2021 (current USD)",
+    "Ten countries arranged in a single circle — the five wealthiest and five poorest by GDP per capita. Each wedge is split in two: left shows 2000, right shows 2021. Each ring adds the next leading cause of death, innermost to outermost. In Luxembourg, Ireland, Switzerland, Norway and Singapore the top killers are heart disease, dementia, lung cancer and COPD — diseases of long life. Across the separator, in Mozambique, the Central African Republic, Madagascar, Afghanistan and Burundi, they are malaria, HIV/AIDS, tuberculosis, diarrhoeal disease and preterm birth complications. Same structure, entirely different worlds. Inspired by the 'Dead reckoning' graphic by the South China Morning Post.",
+  source: "WHO Global Health Estimates 2000 and 2021 (leaf-level causes, all ages) · World Bank GDP per capita 2000 and 2021 (current USD)",
   tags: [],
   chart: <WealthDeathChart />,
 },
