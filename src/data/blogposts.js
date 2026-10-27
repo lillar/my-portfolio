@@ -95,4 +95,12 @@ export const blogposts = [
     date: "Sep 10, 2022",
     category: "Data Transformation",
   },
+  {
+    id: 13,
+    slug: "from-the-window",
+    title: "From the window",
+    subtitle: "One window, one year, one photo every morning, and the weather data to go with it",
+    date: "Oct 24, 2026",
+    category: "Data Visualization",
+  },
 ];

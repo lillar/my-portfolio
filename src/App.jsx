@@ -3,6 +3,7 @@ import D3Course from "./pages/D3Course";
 import ChartChallenge from "./pages/ChartChallenge";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
+import FromTheWindow from "./pages/FromTheWindow";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/d3-course" element={<D3Course />} />
           <Route path="/30daychartchallenge" element={<ChartChallenge />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/from-the-window" element={<FromTheWindow />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="*" element={<D3Course />} />
         </Routes>

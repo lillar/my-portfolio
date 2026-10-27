@@ -1,0 +1,659 @@
+/* ── From the window: scrollytelling post ─────────────────
+   Palette as in the #30DayChartChallenge: rain #5800FF, sunrise #f97316,
+   sunshine #ffc600, away #b904ca, highlight #15bc9d. */
+
+.ftw-page {
+  --nav-h: 71px;
+  --rain: #5800FF;
+  --sunrise: #f97316;
+  --sun: #ffc600;
+  --gold-edge: #c99a00;   /* darker edge so golden dots hold up on the light page */
+  --away: #b904ca;
+  --hl: #15bc9d;
+  --ink: #2c2c2c;
+}
+
+.ftw-wide {
+  width: min(1360px, calc(100vw - 48px));
+  margin-left: calc(50% - min(680px, 50vw - 24px));
+}
+
+.ftw-page .post-body { padding-bottom: 24px; }
+.ftw-page .post-body p b { color: var(--text); font-weight: 500; }
+.ftw-lede { font-size: 18px; }
+
+/* ── Scrolly layout ───────────────────────────────────── */
+
+.ftw-scrolly {
+  display: grid;
+  grid-template-columns: minmax(260px, 340px) 1fr;
+  column-gap: 40px;
+  margin-top: 24px;
+  margin-bottom: 48px;
+}
+
+.ftw-sticky {
+  grid-column: 2;
+  grid-row: 1;
+  position: sticky;
+  top: var(--nav-h);
+  height: calc(100vh - var(--nav-h));
+  height: calc(100svh - var(--nav-h));
+}
+
+.ftw-steps {
+  grid-column: 1;
+  grid-row: 1;
+  padding: 10vh 0 30vh;
+}
+
+.ftw-step {
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+}
+
+.ftw-card {
+  opacity: 0.3;
+  transition: opacity 0.4s;
+}
+
+.ftw-step.is-active .ftw-card { opacity: 1; }
+
+/* A step the reader scrubs through (the sun along the skyline): taller, card stays put */
+.ftw-step-long {
+  min-height: 260vh;
+  align-items: flex-start;
+}
+
+.ftw-step-long .ftw-card {
+  position: sticky;
+  top: calc(var(--nav-h) + 24px);   /* Skyline.jsx reads this to time the sun walk */
+}
+
+.ftw-card p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text);
+  margin: 0 0 14px;
+}
+
+.ftw-card p.ftw-kicker,
+.ftw-kicker {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.c-rain { color: var(--rain); }
+
+.ftw-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--hl);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  vertical-align: 1px;
+}
+.c-sunrise { color: #e0620b; }
+.c-sun { color: #b58b00; }
+.c-photo { color: #b58b00; }
+.ftw-card b { font-weight: 500; }
+
+@media (max-width: 719px) {
+  .ftw-page.page { padding: 0 16px 64px; }
+  .ftw-wide { width: calc(100vw - 32px); margin-left: calc(50% - 50vw + 16px); }
+  .ftw-scrolly { display: block; }
+  .ftw-steps {
+    position: relative;
+    z-index: 2;
+    margin-top: calc(-1 * (100svh - var(--nav-h)));
+    padding: 0 0 40svh;
+    pointer-events: none;
+  }
+  .ftw-step {
+    min-height: 100svh;
+    align-items: flex-end;
+    padding-bottom: 5svh;
+  }
+  .ftw-card {
+    opacity: 1;
+    pointer-events: auto;
+    background: rgba(250, 250, 248, 0.96);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px 2px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  }
+  .ftw-card p { font-size: 15px; }
+  .ftw-step-long { min-height: 320svh; align-items: flex-start; }
+  /* on phones the card scrolls past first, then the sun has the screen to itself */
+  .ftw-step-long { padding-top: 55svh; }
+  .ftw-step-long .ftw-card { position: static; }
+}
+
+/* ── Stage & cells ────────────────────────────────────── */
+
+.ftw-stage {
+  position: relative;
+  overflow: hidden;
+}
+
+.ftw-cell {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 3px;
+  transition:
+    transform 0.9s cubic-bezier(0.65, 0.05, 0.3, 1),
+    width 0.9s cubic-bezier(0.65, 0.05, 0.3, 1),
+    height 0.9s cubic-bezier(0.65, 0.05, 0.3, 1),
+    opacity 0.6s,
+    border-radius 0.6s,
+    background-color 0.6s,
+    box-shadow 0.6s;
+}
+
+.ftw-cell .ph {
+  position: absolute;
+  inset: 0;
+  border-radius: 3px;
+  overflow: hidden;
+  background-color: #e9e7e1;
+  background-size: cover;
+  background-position: center;
+  transition: opacity 0.6s;
+}
+
+.ftw-cell .ph img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ftw-cell.s-nophoto .ph {
+  background-color: #eeece6;
+  box-shadow: inset 0 0 0 1px #dcd9d1;
+}
+
+.ftw-cell.s-away .ph {
+  background: repeating-linear-gradient(135deg, rgba(185, 4, 202, 0.18) 0 1.5px, #f8f5f7 1.5px 5px);
+}
+
+.ftw-cell .rain,
+.ftw-cell .sr,
+.ftw-cell .dot,
+.ftw-cell .strip {
+  opacity: 0;
+  transition: opacity 0.6s;
+}
+
+.L-rain .ftw-cell .rain,
+.L-sunrise .ftw-cell .sr,
+.L-sunrise .ftw-cell .dot,
+.L-strip .ftw-cell .strip { opacity: 1; }
+
+.dim-photo .ftw-cell .ph { opacity: 0.22; }
+
+.ftw-cell .rain {
+  position: absolute;
+  inset: 0;
+}
+
+.ftw-cell .rain i {
+  position: absolute;
+  top: 0;
+  width: 24%;
+  background: var(--rain);
+  border-radius: 0 0 2px 2px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.7);
+  transition: opacity 0.6s;
+}
+
+.ftw-cell .rain i.nodata {
+  height: 2px;
+  background: #a8a8a8;
+  box-shadow: none;
+}
+
+/* Off the scale (> 12 mm): a white "axis break" cut near the end of the bar */
+.ftw-cell .rain i.over::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  top: 74%;
+  height: max(1px, min(2.5px, 5%));
+  background: #fff;
+  transform: rotate(-8deg);
+}
+
+/* …and the amount underneath, when the cell is big enough to read it
+   (not in the anatomy steps, which label the amounts above the photo) */
+.anatomy .ftw-cell .rain i .val { display: none; }
+
+.ftw-cell .rain i .val {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 4px);
+  transform: translateX(-50%);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-style: normal;
+  line-height: 1;
+  color: #fff;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+  white-space: nowrap;
+}
+
+.night-only .ftw-cell .rain i.k1,
+.night-only .ftw-cell .rain i.k2 { opacity: 0.12; }
+
+.ftw-cell .sr {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  margin-top: -1px;
+  background: var(--sunrise);
+}
+
+.ftw-cell.ext .sr { width: calc(100% + var(--gap)); }
+
+.ftw-cell .dot {
+  position: absolute;
+  left: 50%;
+  width: var(--dot);
+  height: var(--dot);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: var(--sun);
+  border: 1px solid var(--ink);
+}
+
+.ftw-cell.before .dot {
+  background: transparent;
+  border: 1px solid var(--sun);
+  box-shadow: 0 0 0 0.5px var(--ink);   /* thin, so it still reads as hollow when small */
+}
+
+.ftw-cell .strip {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + max(1px, 3%));
+  height: max(3px, 7.5%);
+  border-radius: 2px;
+}
+
+/* Photos become dots in the timeline chart */
+.chart-mode .ftw-cell { border-radius: 50%; background-color: var(--sun); box-shadow: inset 0 0 0 1px var(--gold-edge); }
+.chart-mode .ftw-cell.before { background-color: #fafaf8; box-shadow: inset 0 0 0 1.5px var(--gold-edge); }
+.chart-mode .ftw-cell .ph,
+.chart-mode .ftw-cell .rain,
+.chart-mode .ftw-cell .sr,
+.chart-mode .ftw-cell .dot,
+.chart-mode .ftw-cell .strip { opacity: 0; }
+
+.ftw-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  animation: ftw-in 0.6s ease 0.25s both;
+}
+
+.ftw-overlay svg {
+  position: absolute;
+  inset: 0;
+  font-family: var(--mono);
+  overflow: visible;
+}
+
+.ftw-fadein { animation: ftw-in 0.6s ease both; }
+
+@keyframes ftw-in { from { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .ftw-cell, .ftw-cell *, .ftw-card { transition: none !important; }
+  .ftw-overlay, .ftw-fadein { animation: none !important; }
+}
+
+/* ── Legend swatches ──────────────────────────────────── */
+
+.ftw-legend {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.ftw-card p.ftw-legend { font-size: 12px; color: var(--text-muted); }
+
+.ftw-sw {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  vertical-align: -1px;
+  margin: 0 5px 0 10px;
+}
+
+.ftw-sw:first-child { margin-left: 0; }
+.ftw-sw-photo { background: linear-gradient(#9fb0c2, #5d6b78); }
+.ftw-sw-nophoto { background: #eeece6; box-shadow: inset 0 0 0 1px #dcd9d1; }
+.ftw-sw-away { background: repeating-linear-gradient(135deg, rgba(185, 4, 202, 0.3) 0 1.5px, #f8f5f7 1.5px 4px); }
+.ftw-sw-rain { background: var(--rain); width: 6px; height: 12px; }
+.ftw-sw-sunrise { background: var(--sunrise); height: 3px; vertical-align: 3px; }
+.ftw-sw-dot { background: var(--sun); box-shadow: inset 0 0 0 1px var(--gold-edge); border-radius: 50%; width: 9px; height: 9px; }
+.ftw-sw-hollow { box-shadow: inset 0 0 0 1.5px var(--gold-edge); border-radius: 50%; width: 9px; height: 9px; margin-left: 2px; }
+.ftw-sw-sun { background: linear-gradient(90deg, #dcd9d1, var(--sun)); width: 22px; height: 6px; vertical-align: 2px; }
+
+/* ── Figures ──────────────────────────────────────────── */
+
+.ftw-figure { margin: 32px 0; }
+.ftw-figure svg { font-family: var(--mono); display: block; }
+.ftw-figure figcaption,
+.ftw-note {
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin-top: 10px;
+}
+
+/* ── Timelapse ────────────────────────────────────────── */
+
+.ftw-timelapse {
+  position: relative;
+  height: 380vh;
+}
+
+.ftw-tl-sticky {
+  position: sticky;
+  top: var(--nav-h);
+  height: calc(100vh - var(--nav-h));
+  height: calc(100svh - var(--nav-h));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+}
+
+.ftw-tl-frames {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.ftw-tl-frames figure {
+  margin: 0;
+  flex: 0 1 min(320px, 44vw, calc((100svh - var(--nav-h) - 140px) * 0.75));
+}
+
+.ftw-tl-img { position: relative; }
+
+.ftw-tl-img img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 6px;
+  background: #e9e7e1;
+}
+
+.ftw-tl-guide {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 51.1%;
+  border-left: 1.5px dashed var(--hl);
+}
+
+.ftw-tl-frames figcaption,
+.ftw-tl-meta {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 8px;
+}
+
+.ftw-tl-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.ftw-tl-bar {
+  position: relative;
+  width: min(220px, 30vw);
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.ftw-tl-bar span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--hl);
+}
+
+/* ── Explore ──────────────────────────────────────────── */
+
+.ftw-explore { margin-top: 24px; margin-bottom: 8px; }
+
+.ftw-explore-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.ftw-explore .ftw-cell.s-photo { cursor: pointer; }
+.ftw-explore .ftw-cell:focus-visible { outline: 2px solid var(--hl); outline-offset: 2px; }
+.ftw-hide-photos .ftw-cell .ph { opacity: 0.15; }
+
+.ftw-tip {
+  position: fixed;
+  z-index: 50;
+  width: 360px;
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 4px 12px;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  pointer-events: none;
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.ftw-tip img,
+.ftw-tip-nop {
+  grid-row: span 2;
+  width: 96px;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.ftw-tip-nop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: #eeece6;
+  color: var(--text-muted);
+  padding: 6px;
+}
+
+.ftw-tip h3,
+.ftw-lb h3 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 15px;
+  margin: 0;
+}
+
+.ftw-tip dl,
+.ftw-lb dl { margin: 0; }
+.ftw-tip dl div,
+.ftw-lb dl div { display: flex; gap: 8px; }
+.ftw-tip dt,
+.ftw-lb dt { flex: none; width: 62px; color: var(--text-muted); }
+.ftw-tip dd,
+.ftw-lb dd { margin: 0; }
+
+.ftw-lightbox {
+  border: none;
+  border-radius: 10px;
+  padding: 0;
+  max-width: min(860px, 94vw);
+  background: var(--bg);
+}
+
+.ftw-lightbox::backdrop { background: rgba(20, 20, 20, 0.6); }
+
+.ftw-lb {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  padding: 16px;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.ftw-lb img {
+  width: 100%;
+  max-height: 78vh;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+.ftw-lb h3 { font-size: 20px; margin-bottom: 12px; }
+
+.ftw-lb-nav { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+
+.ftw-lb-nav button {
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+@media (max-width: 719px) {
+  .ftw-lb { grid-template-columns: 1fr; }
+  .ftw-lb img { max-height: 55vh; }
+  .ftw-tip { display: none; }
+}
+
+/* ── Credits ──────────────────────────────────────────── */
+
+.ftw-credits {
+  border-top: 1px solid var(--border);
+  margin-top: 48px;
+  padding-top: 24px;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+.ftw-credits a { color: var(--text); }
+
+/* ── Dark stretch: from "A month becomes a year" until the prose ──
+   Scrolly.jsx toggles html.ftw-dark; the site's own tokens are re-pointed so the
+   nav, text and page background all follow. */
+
+html:has(.ftw-page),
+html:has(.ftw-page) nav {
+  transition: background-color 0.6s ease, color 0.6s ease, border-color 0.6s ease;
+}
+
+html.ftw-dark {
+  --bg: #1f2937;
+  --bg-card: #273244;
+  --text: #e5e7eb;
+  --text-muted: #9ca3af;
+  --border: #374151;
+  --strip-lo: #3b4658;
+}
+
+html.ftw-dark .ftw-cell .ph { background-color: #2b3646; }
+html.ftw-dark .ftw-cell.s-nophoto .ph { background-color: #2b3646; box-shadow: inset 0 0 0 1px #3b4658; }
+html.ftw-dark .ftw-cell.s-away .ph { background: repeating-linear-gradient(135deg, rgba(220, 90, 235, 0.28) 0 1.5px, #262d3d 1.5px 5px); }
+html.ftw-dark .chart-mode .ftw-cell.before { background-color: var(--bg); }
+html.ftw-dark .c-rain { color: #a98bff; }
+
+/* Overlay labels are drawn with fixed colours; lift them for the dark page */
+html.ftw-dark .ftw-overlay [fill="#2c2c2c"] { fill: #e5e7eb; }
+html.ftw-dark .ftw-overlay [fill="#888"] { fill: #9ca3af; }
+html.ftw-dark .ftw-overlay [fill="#fafaf8"] { fill: var(--bg); }
+html.ftw-dark .ftw-overlay text[fill="#5800FF"] { fill: #a98bff; }
+html.ftw-dark .ftw-overlay [stroke="#e2e1dc"] { stroke: #374151; }
+html.ftw-dark .ftw-overlay [stroke="#888"] { stroke: #6b7280; }
+
+@media (max-width: 719px) {
+  html.ftw-dark .ftw-card { background: rgba(31, 41, 55, 0.96); }
+}
+
+/* ── True or false? ───────────────────────────────────── */
+
+.ftw-verdicts {
+  list-style: none;
+  margin: 24px 0 28px;
+  padding: 0;
+  border-top: 1px solid var(--border);
+}
+
+.ftw-verdicts li {
+  display: grid;
+  grid-template-columns: 112px 1fr;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.ftw-page .ftw-verdicts p { margin: 0; }
+.ftw-page .ftw-verdicts p.ftw-claim { color: var(--text); margin-bottom: 4px; }
+
+.ftw-verdict {
+  align-self: start;
+  justify-self: start;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.ftw-verdict-true { background: var(--hl); color: #fff; }
+.ftw-verdict-half { background: var(--sun); color: var(--ink); }
+.ftw-verdict-false { background: var(--away); color: #fff; }
+
+@media (max-width: 519px) {
+  .ftw-verdicts li { grid-template-columns: 1fr; gap: 8px; }
+}
